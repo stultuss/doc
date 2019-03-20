@@ -8,7 +8,12 @@
 
 - [PHP](https://github.com/niklaus0823/doc/blob/master/language/PHP.md)
 - Node.js
-  - JavaScript 基础
+  - [JavaScript 基础](https://github.com/niklaus0823/doc/blob/master/language/JavaScript.md)
+  - 进程
+  - 模块
+  - 事件
+  - 异步
+  - V8 引擎
 - Golang
 
 ## 关于系统部署
