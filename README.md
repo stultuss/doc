@@ -7,8 +7,8 @@
 ## 关于编程语言
 
 - [PHP](https://github.com/niklaus0823/doc/blob/master/language/PHP.md)
+- [JavaScript](https://github.com/niklaus0823/doc/blob/master/language/JavaScript.md)
 - Node.js
-  - [JavaScript 基础](https://github.com/niklaus0823/doc/blob/master/language/JavaScript.md)
   - 进程
   - 模块
   - 事件
