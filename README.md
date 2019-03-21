@@ -10,7 +10,7 @@
 - [JavaScript](https://github.com/niklaus0823/doc/blob/master/language/JavaScript.md)
 - Node.js
   - [进程](https://github.com/niklaus0823/doc/blob/master/language/Node.js-Process.md)
-  - 模块
+  - [模块](https://github.com/niklaus0823/doc/blob/master/language/Node.js-Module.md)
   - 事件
   - 异步
   - V8 引擎
