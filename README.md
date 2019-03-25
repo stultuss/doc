@@ -14,6 +14,7 @@
   - [异步](https://github.com/niklaus0823/doc/blob/master/language/Node.js-Async.md)
   - [事件](https://github.com/niklaus0823/doc/blob/master/language/Node.js-Event.md)
   - [v8 引擎](https://github.com/niklaus0823/doc/blob/master/language/Node.js-v8.md)
+  - [Debug & Profile](https://github.com/niklaus0823/doc/blob/master/language/Node.js-Profile.md)
 - Golang
 
 ## 关于系统部署
