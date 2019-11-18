@@ -61,7 +61,117 @@ func main() {
 
 ## Channel
 
+通道（channel）是 Go 中的一种特殊类型，就像一个可以用于发送类型化数据的管道，由其负责协程间的通信。从而避开所有由共享内存导致的陷阱；通过通道进行通信的方式保证了同步性。数据可以在通道间进行传递：**在任何给定时间，一个数据被设计只有一个协程可以对其访问，所以不会发生数据竞争。**数据的所有权也可以可以被传递。所有类型都可以被通道传递，包括空接口，甚至通道的通道，非常灵活。
 
+创建一个通道
+
+```go
+ch := make(chan int) // 无 buffer 的通道很容易被阻塞，导致 goroutine 睡眠。
+```
+
+创建一个带缓存的通道
+
+```go
+ch := make(chan int, 10) // 有 buffer 的通道在 buffer 耗尽后，同样也会被阻塞。
+```
+
+### 例子
+
+生产者-消费者模式（无 buffer）
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func sender(ch chan<- int) {
+	i := 1 // 建议传递的信号不是通道类型的默认值。
+	for {
+		fmt.Println("Send:", i)
+		ch <- i
+		time.Sleep(time.Millisecond * 100)
+		if i == 10 {
+			close(ch) // 生产者执行结束，关闭通道，但消费者依然可以收到信号，直到信号为 0
+			fmt.Println("Send Exit!")
+			break
+		} else {
+			i++
+		}
+	}
+}
+
+func receiver(ch <-chan int) {
+	for {
+		v := <-ch
+		if v == 0 { // 当收到通道信号的默认值就认为信号已经结束了。
+			fmt.Println("Receive Exit!")
+			break
+		} else {
+			fmt.Println("Receive:", v)
+		}
+	}
+}
+
+func main() {
+	ch := make(chan int) // 创建一个无缓冲的通道
+	go sender(ch)        // 生产者向通道内传递信号
+	go receiver(ch)      // 消费者阻塞并等待生产者传递的数据，收到信号执行打印，然后继续阻塞并等待
+	time.Sleep(1 * time.Second)
+}
+```
+
+生产者-消费者模式（有 buffer）
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func sender(ch chan<- int) {
+	i := 1 // 建议通道第一个值不是通道类型的默认值，即 int = 0, string = "" 等，这样消费者在收到默认值的时候就直到消息结束了。
+	for {
+		fmt.Println("Send:", i)
+		ch <- i // 一次性向通道里写入 10 个信号，先进先出
+		if i == 10 {
+			close(ch) // 生产者执行结束，关闭通道，但消费者依然可以收到信号，直到信号为 0
+			fmt.Println("Send Exit!")
+			break
+		} else {
+			i++
+		}
+	}
+}
+
+func receiver(ch <-chan int) {
+	for {
+		v := <-ch
+		if v == 0 {
+			fmt.Println("Receive Exit!")
+			break
+		} else {
+			fmt.Println("Receive:", v)
+		}
+	}
+}
+
+func main() {
+	ch := make(chan int, 10) // 创建一个带缓冲的通道
+	go sender(ch)        // 生产者向通道内传递信号
+	go receiver(ch)      // 消费者阻塞并等待生产者传递的数据，收到信号执行打印，然后继续阻塞并等待下一次个信号
+	time.Sleep(1 * time.Second)
+}
+```
+
+上面两个生产者消费者的例子的运行结果表明
+
+- 无缓冲的通道：每一次的通道数据交换，消费者都要阻塞一次，共计10次阻塞，打印10条数据。
+- 带缓冲的通道：生产者一次可写入10条数据，消费者只阻塞一次，就可以打印10条数据。
 
 ## Sync
 
@@ -93,9 +203,9 @@ import (
 	"time"
 )
 
-func sum(seq int, ch chan int) {
-	defer func() 
-		close(ch){
+func counter(seq int, ch chan int) {
+	defer func() {
+		close(ch)
 		fmt.Printf("协程结束, 序号%d\n", seq)
 	}()
 	sum := 0
@@ -115,7 +225,7 @@ func main() {
 	chs := make([]chan int, cpus)
 	for i := 0; i < len(chs); i++ {
 		chs[i] = make(chan int, 1)
-		go sum(i, chs[i])
+		go counter(i, chs[i])
 	}
 	// 获取通道信号
 	sum := 0
@@ -131,7 +241,7 @@ func main() {
 
 ### 2. 并发同步计算
 
-通过 Go 程和 sync.Mutex 互斥锁进行并发同步。
+通过 Go 程和 sync.Mutex 互斥锁进行并发同步。Mutex 本质还是通过共享内存实现并发同步。
 
 ```go
 package main
@@ -184,18 +294,58 @@ func main() {
 
 ```
 
+使用 channel 实现符合 CSP 并发模型的并发同步 (实现一个互斥锁)
 
+> 信号量模式：通道信道回报，通知主线程在协程中的处理已经完成。
 
+```go
+package main
 
+import (
+	"fmt"
+	"runtime"
+	"time"
+)
 
-#### 并发和并行
+// 创建一个信号量
+var count = 0
 
-https://www.jianshu.com/p/80f69dad849f
+func counter(seq int, sem chan int) {
+	sem <- 1 // 通道上锁，通道数据未输出之前，go 程被阻塞
+	original := count
+	count++
+	fmt.Printf("协程结束, 序号%d, 计算前%d, 计算后%d\n", seq, original, count)
+	<- sem // 释放通道
+}
 
-https://segmentfault.com/a/1190000019661223
+func main() {
+	// 开始时间
+	start := time.Now()
+	// 获取 CPU 核心数量
+	cpus := runtime.NumCPU()
+	// 允许开启多少数量的 P 线程
+	runtime.GOMAXPROCS(cpus) // cpus | 1
 
-https://blog.csdn.net/lengyuezuixue/article/details/79738573
+	// 创建一个通道
+	sem := make(chan int, 1)
+	sum := 100
+	// 传递指针是为了防止 函数内的锁和 调用锁不一致
+	for i := 0; i < cpus; i++ {
+		for j := 0; j < sum; j++ {
+			go counter(i * j, sem)
+		}
+	}
 
-https://xueyuanjun.com/post/19910.html
-
-##### 
+	for {
+		// 让出时间片给别的 Go 程
+		runtime.Gosched()
+		if count >= cpus * sum {
+			// 结束时间
+			end := time.Now()
+			time.Sleep(time.Second)
+			fmt.Printf("结果: %d, 耗时(s): %f\n", count, end.Sub(start).Seconds())
+			break
+		}
+	}
+}
+```
