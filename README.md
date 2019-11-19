@@ -24,6 +24,8 @@ Developer Doc
   - [基础](https://github.com/stultuss/doc/blob/master/doc/language/Go-Base.md)
     - [环境](https://github.com/stultuss/doc/blob/master/doc/language/Go-Base-Env.md)
     - [模块](https://github.com/stultuss/doc/blob/master/doc/language/Go-Base-Modules.md)
+    - [协程](https://github.com/stultuss/doc/blob/master/doc/language/Go-Base-Goroutine.md)
+    - [通道](https://github.com/stultuss/doc/blob/master/doc/language/Go-Base-Channel.md)
     - [并发](https://github.com/stultuss/doc/blob/master/doc/language/Go-Base-Concurrency.md)
     - [结构体](https://github.com/stultuss/doc/blob/master/doc/language/Go-Base-Struct.md)
   - 错误处理
