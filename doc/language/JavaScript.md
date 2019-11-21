@@ -94,7 +94,7 @@ console.log([1] == [1]); // 适用情况2，一前一后创建了两个对象，
 
 参考资料：[一张图彻底搞懂JavaScript的==运算](https://zhuanlan.zhihu.com/p/21650547)
 
-![==](https://github.com/niklaus0823/doc/blob/master/images/language/==.jpg?raw=true)
+![==](https://github.com/stultuss/doc/blob/master/images/language/==.jpg?raw=true)
 
 看完这个资料，我们基本可以得出以下结论：
 
