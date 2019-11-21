@@ -45,8 +45,8 @@ Developer Doc
 ## 关于数据库
 
 - MySQL
-- Redis
-- Memcache
+- [Redis](https://github.com/stultuss/doc/blob/master/doc/db/Redis.md)
+- [Memcache](https://github.com/stultuss/doc/blob/master/doc/db/Memcache.md)
 - Mongodb
 - Cassandra
 

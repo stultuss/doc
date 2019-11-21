@@ -40,7 +40,7 @@ function test2() {
 - **spawn**：更安全的启动一个子进程来执行命令，使用 option 传入各种参数来设置子进程的 `stdin`、`stdout` 等。通过内置的管道来与子进程建立 IPC 通信。
 - **fork**：`spawn` 的特殊情况，专门用来产生 worker 或者 worker 池。 返回值是 [ChildProcess ](https://zhuanlan.zhihu.com/p/goog_1177605021)[对象](https://link.zhihu.com/?target=https%3A//nodejs.org/dist/latest-v7.x/docs/api/child_process.html%23child_process_class_childprocess) 可以方便的与子进程交互。
 
-**另外，通过`child_process` 创建的子进程，如果需要和主进程进行通信（IPC），请选择消息队列或者 TCP Socket 或 gRPC 来进行，因为当传输较大数据（1MB）时候，通过 `child_process` 的 send 的速度会慢好几倍。**参考资料：[饿了么前端-Node.js cluster 踩坑小结](https://zhuanlan.zhihu.com/p/27069865)
+**另外，通过`child_process` 创建的子进程，如果需要和主进程进行通信（IPC），请选择消息队列或者 TCP Socket 或 gRPC 来进行，因为当传输较大数据（1MB）时候，通过 `child_process` 的 send 的速度会慢好几倍**。参考资料：[饿了么前端-Node.js cluster 踩坑小结](https://zhuanlan.zhihu.com/p/27069865)
 
 ## Cluster（集群）
 
@@ -60,7 +60,7 @@ Cluster 是常见的 Node.js 利用多核的办法，Cluster 是基于 `child_pr
 
 ### 1. `process` 的当前工作目录是什么? 有什么作用?
 
-通过 `process.cwd()` 获得的是当前进程启动时所在的目录。通常用来获取命令行启动的时候的目录，或以该目录未基础获得其相对位置的其他目录。
+通过 `process.cwd()` 获得的是当前进程启动时所在的目录。通常用来获取命令行启动的时候的目录，或以该目录为基础获得其相对位置的其他目录。
 
 ### 2. 父进程或子进程的死亡是否会影响对方? 什么是孤儿进程？
 

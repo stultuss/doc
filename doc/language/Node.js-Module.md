@@ -14,13 +14,13 @@ Node.js 模块
 // m.js
 var f;
 function f1() {
-  f = 1;
-  console.log(f);
+	f = 1;
+	console.log(f);
 }
 
 function f2() {
-  f = 2;
-  console.log(f);
+	f = 2;
+	console.log(f);
 }
 
 f1(); // 1
