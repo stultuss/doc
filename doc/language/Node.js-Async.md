@@ -17,14 +17,10 @@ call
   .then(() => {
     console.log(`then1`);
     new HelloWorld();
-  }, () => {
-    console.log('error1');
-  })
+  }, () => console.log('error1'))
   .then(() => {
     console.log(`then2`);
-  }, () => {
-    console.log('error2');
-  })
+  }, () => console.log('error2'))
   .catch(() => {
     console.log('catch');
   });
@@ -94,7 +90,8 @@ console.log(5);
 1. 同步任务的执行
 2. 发出异步请求：将异步操作塞入到 libuv 的事件循环任务队列。
 3. 规划定时器生效的时间：参考定时器的原理。
-4. 执行`process.nextTick()`等等
+4. 执行本轮循环结束后的 `process.nextTick()` 或 `Promise` 的回调函数。
+5. 执行次轮循环前的 `setTimeout()` 等的回调函数。
 
 通过这个调度顺序，我们就可以得出结论：先执行异步请求，打印 4，再执行定时器生效，打印 1。
 
@@ -210,7 +207,7 @@ Node.js 是单线程的，只有当代码执行完，才会切入事件循环，
 
 我的理解：
 
-- 并发：多个任务A1~A10 同时执行，最终达成结果B1~B10。
+- 并发：多个任务A1~A10 同时执行，最终达成结果B1~B10，最典型的例子就是集群。
 
 
 - 并行：一个任务A，过程拆分成 A1~A10并同时执行，必须全部完成才能达成最终结果B。
@@ -246,7 +243,7 @@ function sendRequest(urls, max, callback) {
         max++;
         counter++;
         if (counter === len) {
-          return callback();
+          return callback(); // 完成全部请求，退出并执行回调。
         } else {
           _request();
         }
