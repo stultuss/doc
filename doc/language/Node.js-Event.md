@@ -92,7 +92,7 @@ Node.js 进程启动后，会进行一次事件循环的初始化，但事件循
 
 每个阶段都有一个先进先出的回调函数队列。只有一个阶段的回调函数队列清空了，该执行的回调函数都执行了，事件循环才会进入下一个阶段。
 
-![Event-Loop](https://github.com/niklaus0823/doc/blob/master/images/language/event-loop.jpg?raw=true)
+![Event-Loop](https://github.com/stultuss/doc/blob/master/images/language/event-loop.jpg?raw=true)
 
 其他参考资料：[JavaScript 运行机制详解：再谈Event Loop](http://www.ruanyifeng.com/blog/2014/10/event-loop.html)
 
