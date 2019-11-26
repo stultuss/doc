@@ -365,8 +365,12 @@ let arr = [];
 while(true)
   arr.push(new Buffer(1000));
   
-// 不会爆掉，arr 对象未被释放，存在内存泄漏，但比 push number 类型慢的多，push buffer 不会崩溃，当内存即将到达 100% 时，会自动垃圾回收，瞬间降低内存，push 继续工作。
+// 会爆掉，arr 对象未被释放，存在内存泄漏，但比 push number 类型慢的多，属于堆外内存，无法被回收。
 ```
+
+**关于 Buffer 的内存分配**
+
+Buffer 所占用的内存不是通过 V8 分配的，而是在 Node 的 C++ 层面实现内存的分配，属于堆外内存，所以 V8 GC 并不会回收 Buffer 的内存。Node 以 8KB 为界限来区分 Buffer 是否属于 Large Object Space。
 
 ### 8. ES6 新特性
 
