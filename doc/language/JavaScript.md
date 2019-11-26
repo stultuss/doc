@@ -365,7 +365,7 @@ let arr = [];
 while(true)
   arr.push(new Buffer(1000));
   
-// 会爆掉，arr 对象未被释放，并且因为 Buffer 的大小小于8k，会先检查内存池，所以内存实际没有增长
+// 不会爆掉，arr 对象未被释放，存在内存泄漏，但比 push number 类型慢的多，push buffer 不会崩溃，当内存即将到达 100% 时，会自动垃圾回收，瞬间降低内存，push 继续工作。
 ```
 
 ### 8. ES6 新特性
