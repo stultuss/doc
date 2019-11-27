@@ -16,6 +16,7 @@ Developer Doc
   - 二叉树
   - 红黑树
   - 平衡树
+  - 字典树 / 前缀树
 - 数据结构
   - 数组和链表
   - 栈和队列
@@ -45,6 +46,8 @@ Developer Doc
 - [JavaScript](https://github.com/stultuss/doc/blob/master/doc/language/JavaScript.md)
   - [FLUX](https://github.com/stultuss/doc/blob/master/doc/language/JavaScript-FLUS.md)
   - [React](https://github.com/stultuss/doc/blob/master/doc/language/JavaScript-React.md)
+    - 不可变数据结构 immutable 实现
+    - 深克隆
   - [ReactNative](https://github.com/niklaus0823/demo-react-native)
 - Node.js
   - [进程](https://github.com/stultuss/doc/blob/master/doc/language/Node.js-Process.md)
@@ -114,4 +117,5 @@ Developer Doc
 ## TODO
 1. Redis 有序集合实现原理：跳表
 2. 虚拟 DOM 实现原理
-3. 数据库索引及其优化
+3. Immutable.js的实现机制
+4. 数据库索引及其优化
