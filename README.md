@@ -11,21 +11,20 @@ Developer Doc
   - [HTTP](https://github.com/stultuss/doc/blob/master/doc/net/HTTP.md)
   - WebSocket
   - gRPC
-- 图论
-  - 二叉树
-  - 红黑树
-  - 平衡树
-  - 字典树 / 前缀树
 - 数据结构
   - 数组和链表
   - 栈和队列
   - 树和图
+    - [二叉树](https://github.com/stultuss/doc/blob/master/doc/structure/BinaryTree.md)
+    - 红黑树
+    - 平衡树
+  - 字典树 / 前缀树
   - 哈希表
   - 堆
   - 字符串
-
+  
 - 算法
-  - 基础
+  - [算法基础](https://github.com/stultuss/doc/blob/master/doc/algorithm/Base.md)
     - 分治
     - 倍增
     - 二分
