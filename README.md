@@ -9,7 +9,6 @@ Developer Doc
 
 - 网络
   - [HTTP](https://github.com/stultuss/doc/blob/master/doc/net/HTTP.md)
-  - HTTP 2
   - WebSocket
   - gRPC
 - 图论
