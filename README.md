@@ -5,12 +5,39 @@ Developer Doc
 
 ---
 
-## 关于网络
+## 基础
 
-- [HTTP](https://github.com/stultuss/doc/blob/master/doc/net/HTTP.md)
-- HTTP 2
-- WebSocket
-- gRPC
+- 网络
+  - [HTTP](https://github.com/stultuss/doc/blob/master/doc/net/HTTP.md)
+  - HTTP 2
+  - WebSocket
+  - gRPC
+- 图论
+  - 二叉树
+  - 红黑树
+  - 平衡树
+- 数据结构
+  - 数组和链表
+  - 栈和队列
+  - 树和图
+  - 哈希表
+  - 堆
+  - 字符串
+
+- 算法
+  - 基础
+    - 分治
+    - 倍增
+    - 二分
+    - 贪心
+  - 排序算法
+    - 快排
+    - 冒泡
+    - 堆排
+  - 有限状态机
+  - 动态规划
+  - 深度优先
+  - 广度优先
 
 ## 关于语言
 
@@ -85,6 +112,6 @@ Developer Doc
   - Kafka
 
 ## TODO
-1. 记忆 JS 基础，面试准备。
-2. 记忆 Node 基础 & 进阶，面试准备。
-3. 继续学习 Golang 以及构建微服务的方案（长期）。
+1. Redis 有序集合实现原理：跳表
+2. 虚拟 DOM 实现原理
+3. 数据库索引及其优化
