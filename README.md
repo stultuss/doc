@@ -25,18 +25,11 @@ Developer Doc
   
 - 算法
   - [算法基础](https://github.com/stultuss/doc/blob/master/doc/algorithm/Base.md)
-    - 分治
-    - 倍增
-    - 二分
-    - 贪心
   - 排序算法
-    - 快排
-    - 冒泡
-    - 堆排
-  - 有限状态机
-  - 动态规划
-  - 深度优先
-  - 广度优先
+  - 搜索算法
+    - 回溯
+    - 递归
+    - 剪枝
 
 ## 关于语言
 
