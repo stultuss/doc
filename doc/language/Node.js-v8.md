@@ -7,10 +7,26 @@ Node.js v8 引擎
 
 什么是 V8 Log，以及什么是 V8 GC， 下面有几篇 Alinode 团队写的解读，写的非常详细，链接如下：
 
-- [解读 V8 GC Log（一）: Node.js 应用背景与 GC 基础知识](http://alinode.aliyun.com/blog/37)
-- [解读 V8 GC Log（二）: 堆内外内存的划分与 GC 算法](http://alinode.aliyun.com/blog/38)
+- [解读 V8 GC Log（一）: Node.js 应用背景与 GC 基础知识](https://yq.aliyun.com/articles/592878)
+- [解读 V8 GC Log（二）: 堆内外内存的划分与 GC 算法](https://yq.aliyun.com/articles/592880?spm=a2c4e.11153940.0.0.4c32dcdeWfBogU)
 
-我这里就不进行归纳了，他们写的这么好，让我感觉没东西可写了。。。
+主要需要记忆两块内容：
+
+- 弱分代假设：
+  - 新生代 
+  - 老生代
+
+- 回收算法
+  - 新生代：Scavenge
+    - 一个内存空间，分为两半，使用中的叫 from space，未使用的脚 to space
+    - 当内存空间不足时触发启动，调换两个 space，然后做宽度扫描，将所有存活的对象复制到 to space，并清除 from space。
+  - 晋升
+    - 当启动 Scavenge 时，发现存活的对象已经存活过一次了，就会被晋升到老生代，而不会再复制到 to space 中了。
+  - 老生代：Mark-Sweep／Mark-Compact
+    - 扫描全部对象，并进行标记（三色 marking）
+    - 白色表示可回收，黑色表示不可回收，灰色表示尚未扫描
+- 堆外内存
+  - buffer
 
 ## V8 内存监控
 
