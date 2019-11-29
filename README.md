@@ -25,11 +25,8 @@ Developer Doc
   
 - 算法
   - [算法基础](https://github.com/stultuss/doc/blob/master/doc/algorithm/Base.md)
-  - 排序算法
-  - 搜索算法
-    - 回溯
-    - 递归
-    - 剪枝
+  - [排序算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Sort.md)
+  - [搜索算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Search.md)
 
 ## 关于语言
 
