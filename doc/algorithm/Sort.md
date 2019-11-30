@@ -4,8 +4,6 @@
 > 记录面试中的一些问题
 >
 
-https://github.com/MisterBooo/LeetCodeAnimation
-
 在这一篇中，写的 Node 代码尽量不使用内置的函数，以便未来如果用其他语言实现，需要相应的修改。
 
 ## 冒泡排序
@@ -72,3 +70,156 @@ function SelectSort(arr) {
 }
 ```
 
+选择排序也是需要 n (n - 1) / 2 次比较完成排序，但他不是一个稳定的算法，因为如果出现类似 54516 的数组，那么经过第一次交换后，第一个 5 和 第三个 5 的位置顺序被破坏了，所以不是一个稳定的算法。 其平均复杂度为O(n²)。空间复杂度为 O(1)。
+
+## 插入排序
+
+插入排序也是一种简单的算法，他的原理和选择排序相近，但更加的优化，他不需要反复遍历整个数组，而是每次只从已经排序过的区间内，进行插入操作（类似打扑克时的理牌）。原理如下：
+
+- 从第一个元素开始，该元素可以认为已经被排序
+- 取出下一个元素，在已经排序的元素序列中从后向前扫描
+- 如果该元素（已排序）大于新元素，将该元素移到下一位置
+- 重复步骤 3，直到找到已排序的元素小于或者等于新元素的位置
+- 将新元素插入到该位置后
+- 重复步骤 2~5
+
+```javascript
+function InsertionSort(arr) {
+  let n = arr.length;
+  // 默认 i = 0是已经排序的，所以从 i = 1 开始遍历
+  for (let i = 1; i < n; i++) {
+    // 从 j = i 开始，每次都与已经排序过的进行比较并交换，直到自身比前值大，退出
+    for (let j = i; j > 0; j--) {
+      if (arr[j - 1] <= arr[j]) {
+        break;
+      }
+      arr[j] = arr[j] ^ arr[j - 1];
+      arr[j - 1] = arr[j] ^ arr[j - 1];
+      arr[j] = arr[j] ^ arr[j - 1];
+    }
+  }
+  return arr;
+}
+```
+
+这个算法比冒泡更优秀的点是：他始终只与已经排序过的序列进行比较，并且可以提前终止遍历，插入排序不会改变原有元素间的顺序，所以是稳定的，其平均复杂度为O(n²)。空间复杂度为 O(1)。
+
+> 插入排序对于有序数组，效率更高。
+
+## 归并排序
+
+归并算法通过将长度为 n 数组拆成 n  个由一个元素组成的数组，然后分别与邻近的数组两两比较并排序变成一个由两个元素组成的数组，以此类推，最终将所有数组排序。它用的是分治的思想。原理如下：
+
+- 申请空间，使其大小为两个已经排序序列之和，该空间用来存放合并后的序列
+- 设定两个指针，最初位置分别为两个已经排序序列的起始位置
+- 比较两个指针所指向的元素，选择相对小的元素放入到合并空间，并移动指针到下一位置
+- 重复步骤3直到某一指针到达序列尾
+- 将另一序列剩下的所有元素直接复制到合并序列尾
+
+```javascript
+function MergeSort(arr) {
+  let n = arr.length;
+  if (n < 2) {
+    return arr;
+  }
+  
+  // 第一步，将数组拆分为左右各一半的数组，
+  let mid = Math.floor(n / 2);
+  
+  // 第二步，递归调用 MergeSort 将左右数组继续往下拆，拆到最底层，再一层一层往上合并
+  let left = MergeSort(arr.slice(0, mid));
+  let right = MergeSort(arr.slice(mid, n));
+  
+  // 第三步，将最终的数组合并
+  return merge(left, right);
+  
+  // 合并方法
+  function merge(left, right) {
+    // 遍历左右数组，根据大小逐个出栈，放入新的数组，直到左右数组有任意一个为空
+    let result = [];
+    while (left.length > 0 && right.length > 0) {
+      if (left[0] <= right[0]) {
+        result.push(left.shift());
+      } else {
+        result.push(right.shift());
+      }
+    }
+    
+    // 将剩下的元素全部出栈，放入新的数组
+    while (left.length) {
+      result.push(left.shift());
+    }
+    
+    while (right.length) {
+      result.push(right.shift());
+    }
+    
+    return result;
+  }
+}
+```
+
+归并排序无论在什么情况下，他的时间复杂度都是O(n log n)。空间复杂度为 O(n)，是一个稳定的排序算法。
+
+## 快速排序
+
+这是开发人员用的最多的排序算法，性能比归并更好，采用的是分治的思想，快速排序有几个变种，单路，双路，三路等。他们的区别在于选取几个“基准”来对数组进行排序。原理：
+
+- 首选从数组中选取一个数字，作为基准
+- 遍历数组，将比基准大的数字丢到右边，比基准小的数字丢到左边（类似树的形状）
+- 最后将左右两个数组，再递归上述流程
+- 最终获得的值就是排序过的数组。
+
+> 关于快速排序，基准的选择很重要
+>
+> - 如果是一个随机数组，那么选择第一个或最后一个，都没有问题。但如果是一个有序待排数组，那么就会很糟糕，它的树形就会变成一边重，一边轻。
+> - 选择基准有几个方案：
+>   - 完全随机，隐患：正好随机到接近最大或最小值。 （O1）
+>   - 推荐取三个数的中值，举例：取出首，中，尾三个值进行比较，排除掉最大值和最小值，就可以得到中值了 （O1）
+
+```javascript
+function QuickSort(arr) {
+  
+  function swap(key1, key2) {
+    if (key1 === key2) {
+      return;
+    }
+    arr[key1] = arr[key1] ^ arr[key2];
+    arr[key2] = arr[key1] ^ arr[key2];
+    arr[key1] = arr[key1] ^ arr[key2];
+  }
+  
+  let n = arr.length;
+  if (n < 2) {
+    return arr;
+  }
+  
+  // 取三数的 key
+  let low = 0;
+  let mid = Math.floor(n / 2);
+  let high = n;
+  
+  // 比较三值，进行交换，升序排列
+  if (arr[low] > arr[mid]) {
+    swap(low, mid)
+  }
+  if (arr[mid] > arr[high]) {
+    swap(mid, high)
+  }
+  
+  // 对数组进行分区
+  let base = arr.splice(mid, 1)[0];
+  let left = [];
+  let right = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] < base) {
+      left.push(arr[i]);
+    } else {
+      right.push(arr[i]);
+    }
+  }
+  return QuickSort(left).concat(base, QuickSort(right));
+}
+```
+
+快速排序是一个不稳定的排序算法，当基准值选的很差的时候，最坏情况下复杂度为 O(n²)，其平均复杂度为O(n log n)。空间复杂度为 O(log n)。

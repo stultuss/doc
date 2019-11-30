@@ -28,7 +28,7 @@ function quickSort(arr) {
   }
   let left = [];
   let right = [];
-  let base = arr[0];
+  let base = arr[0]; // 取第一个做基准最简单，但有时会很糟糕。
   for (let i = 1; i < arr.length; i++) {
     if (arr[i] < base) {
       left.push(arr[i]);
@@ -38,9 +38,6 @@ function quickSort(arr) {
   }
   return quickSort(left).concat(base, quickSort(right));
 }
-
-let test = [10, 3, 9, 13, 32, 21, 10, 4, 11, 40, 22, 53];
-console.log(quickSort(test));
  ```
 
 ## 倍增
