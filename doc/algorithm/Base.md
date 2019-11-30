@@ -214,11 +214,11 @@ for (let i = 0; i < f[n].cost; i++) {
 
 ## 习题：括号配对
 
-给定几种括号：“{}”, "[]", "()"，有以下两个问题：
+给定几种括号："()"，“[]”, "{}"，有以下两个问题：
 
 1. 验证字符串内的括号是否缺失：
 
-> 思路：最简单的做法就是，碰到左括号，再统计是否出现一个右括号，最后比较左右括号的数量，最后比较数量相等即可.
+> 思路：最简单的做法就是，记录左括号出现的顺序，当出现右括号时进行配对，配对成功，将左括号弹出队列，最后判定记录的左括号数量是否为 0
 
 ```javascript
 function verifyString(str) {
@@ -228,38 +228,44 @@ function verifyString(str) {
   
   // 设置配对
   let pairs = {
-    ')': '('
+    ')': '(',
+    ']': '[',
+    '}': '{'
   };
-  // 设置栈，记录出现次数
-  let heap = {
-    '(': 0
-  };
+  // 设置符号
+  let symbols = ['{', '}', '[', ']', '(', ')'];
+  // 设置次序栈
+  let pos = [];
   
   for (let i = 0; i < str.length; i++) {
     let s = str[i];
-  
-    // 发现左侧括号，计数器 + 1
-    if (heap[s] >= 0) {
-      heap[s]++;
+    
+    // 发现左侧括号，加入次序栈
+    if (symbols.indexOf(s) !== -1 && !pairs[s]) {
+      pos.push(s);
       continue;
     }
   
-    // 发现右侧括号，但计数器 = 0，直接认为不合法
     let r = pairs[s];
-    if (r && heap[r] === 0) {
+    if (!r) {
+      continue;
+    }
+  
+    // 发现右侧括号，判定有出现过括号
+    if (pos.length === 0) {
       return false;
     }
     
-    // 发现右侧括号，计数器大于 0，计数器 - 1
-    if (r && heap[r] > 0) {
-      heap[r]--;
+    // 发现右侧括号，判定是否和上一个出现的括号一致
+    if (pos.pop() !== r) {
+      return false;
     }
   }
   
-  return heap['('] === 0;
+  return pos.length === 0;
 }
 
-console.log(verifyString('ABA(ABCABA)AB()'));
+console.log(verifyString('999999{[9(99]})'));
 ```
 
 2. 清除掉有无效的括号（最近的不清除）：
@@ -274,13 +280,21 @@ function clearString(str) {
   
   // 设置配对
   let pairs = {
-    ')': '('
+    ')': '(',
+    ']': '[',
+    '}': '{'
   };
   // 设置栈, 记录位置
   let heap = {
-    '(': [],  // 可能无效的左括号
-    ')': []   // 一定无效的右括号，（有效的右括号都被上面的左括号抵消了）
+    '(': [],
+    ')': [],
+    '{': [],
+    '}': [],
+    '[': [],
+    ']': []
   };
+  // 括号出现顺序
+  let pos = [];
   
   for (let i = 0; i < str.length; i++) {
     let s = str[i];
@@ -288,19 +302,28 @@ function clearString(str) {
     // 发现左侧括号，记录出现位置
     if (heap[s] && !pairs[s]) {
       heap[s].push(i);
+      pos.push(s);
+      continue;
+    }
+    
+    let r = pairs[s];
+    if (!r) {
       continue;
     }
     
     // 发现右侧括号，但左侧括号长度为 0，直接丢到无效的右括号中
-    let r = pairs[s];
-    if (r && heap[r].length === 0) {
+    if (heap[r].length === 0) {
       heap[s].push(i);
       continue;
     }
     
     // 发现右侧括号，左侧括号长度大于 0，则抵消一个左侧括号，把最近的括号从数组底部弹出，
-    if (r && heap[r].length > 0) {
+    let last = pos.pop();
+    if (last === r) {
       heap[r].pop();
+    } else {
+      heap[s].push(i);
+      pos.push(last);
     }
   }
   
@@ -321,7 +344,7 @@ function clearString(str) {
   return str;
 }
 
-console.log(clearString('AB)A(ABCABA)AB(ABC'));
+console.log(clearString('999(999{[999)]}')); // 999999{[999]}
 ```
 
 ## 习题：背包问题
