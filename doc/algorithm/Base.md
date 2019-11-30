@@ -212,6 +212,118 @@ for (let i = 0; i < f[n].cost; i++) {
 5
 ```
 
+## 习题：括号配对
+
+给定几种括号：“{}”, "[]", "()"，有以下两个问题：
+
+1. 验证字符串内的括号是否缺失：
+
+> 思路：最简单的做法就是，碰到左括号，再统计是否出现一个右括号，最后比较左右括号的数量，最后比较数量相等即可.
+
+```javascript
+function verifyString(str) {
+  if (!str) {
+    return true
+  }
+  
+  // 设置配对
+  let pairs = {
+    ')': '('
+  };
+  // 设置栈，记录出现次数
+  let heap = {
+    '(': 0
+  };
+  
+  for (let i = 0; i < str.length; i++) {
+    let s = str[i];
+  
+    // 发现左侧括号，计数器 + 1
+    if (heap[s] >= 0) {
+      heap[s]++;
+      continue;
+    }
+  
+    // 发现右侧括号，但计数器 = 0，直接认为不合法
+    let r = pairs[s];
+    if (r && heap[r] === 0) {
+      return false;
+    }
+    
+    // 发现右侧括号，计数器大于 0，计数器 - 1
+    if (r && heap[r] > 0) {
+      heap[r]--;
+    }
+  }
+  
+  return heap['('] === 0;
+}
+
+console.log(verifyString('ABA(ABCABA)AB()'));
+```
+
+2. 清除掉有无效的括号（最近的不清除）：
+
+> 思路：遍历一遍字符串，找到无效的括号的 key 并记录，然后逐个进行裁剪
+
+```javascript
+function clearString(str) {
+  if (!str) {
+    return true;
+  }
+  
+  // 设置配对
+  let pairs = {
+    ')': '('
+  };
+  // 设置栈, 记录位置
+  let heap = {
+    '(': [],  // 可能无效的左括号
+    ')': []   // 一定无效的右括号，（有效的右括号都被上面的左括号抵消了）
+  };
+  
+  for (let i = 0; i < str.length; i++) {
+    let s = str[i];
+    
+    // 发现左侧括号，记录出现位置
+    if (heap[s] && !pairs[s]) {
+      heap[s].push(i);
+      continue;
+    }
+    
+    // 发现右侧括号，但左侧括号长度为 0，直接丢到无效的右括号中
+    let r = pairs[s];
+    if (r && heap[r].length === 0) {
+      heap[s].push(i);
+      continue;
+    }
+    
+    // 发现右侧括号，左侧括号长度大于 0，则抵消一个左侧括号，把最近的括号从数组底部弹出，
+    if (r && heap[r].length > 0) {
+      heap[r].pop();
+    }
+  }
+  
+  // 合并无效的索引，并根据索引排序
+  let aux = [];
+  for (let key of Object.keys(heap)) {
+    aux = aux.concat(heap[key]);
+  }
+  aux.sort((a, b) => a - b);
+  
+  // 根据 heap 清除无效的括号
+  let offset = 0;
+  aux.forEach((i) => {
+    str = str.substring(0, i - offset) + str.substring(i - offset + 1);
+    offset++;
+  });
+  
+  return str;
+}
+
+console.log(clearString('AB)A(ABCABA)AB(ABC'));
+```
+
 ## 习题：背包问题
 
 解题前需要确定几点：

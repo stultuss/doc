@@ -18,6 +18,7 @@ Developer Doc
     - [二叉树](https://github.com/stultuss/doc/blob/master/doc/structure/BinaryTree.md)
     - 红黑树
     - 平衡树
+    - 树的遍历
   - 字典树 / 前缀树
   - 哈希表
   - 堆
