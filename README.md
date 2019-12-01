@@ -17,7 +17,6 @@ Developer Doc
   - 树和图
     - [二叉树](https://github.com/stultuss/doc/blob/master/doc/structure/BinaryTree.md)
     - [平衡树](https://github.com/stultuss/doc/blob/master/doc/structure/BalancedTree.md)
-    - 红黑树
     - B-Tree
   - 字典树 / 前缀树
   - 哈希表
