@@ -16,9 +16,9 @@ Developer Doc
   - 栈和队列
   - 树和图
     - [二叉树](https://github.com/stultuss/doc/blob/master/doc/structure/BinaryTree.md)
+    - [平衡树](https://github.com/stultuss/doc/blob/master/doc/structure/BalancedTree.md)
     - 红黑树
-    - 平衡树
-    - 树的遍历
+    - B-Tree
   - 字典树 / 前缀树
   - 哈希表
   - 堆
