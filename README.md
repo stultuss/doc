@@ -11,7 +11,7 @@ Developer Doc
 - [算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Base.md)
   - [排序算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Sort.md)
   - [搜索算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Search.md)
-- 例题
+  - [算法例题](https://github.com/stultuss/doc/blob/master/doc/algorithm/Example.md)
   
 - [查找树](https://github.com/stultuss/doc/blob/master/doc/structure/SearchTree.md)
   - [平衡树](https://github.com/stultuss/doc/blob/master/doc/structure/BalancedTree.md)

@@ -114,7 +114,26 @@ BST.prototype.postOrder = function (node, res) {
 
 层序遍历属于 BFS，一般用于求最短路径，需要依赖队列来实现。这种搜索方法不考虑结果可能的位置，而是彻底的搜索整个图，直到找到结果为止。
 
-![自然界中的宽搜](https://gss3.bdstatic.com/7Po3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=a935710e0c33874498c5287e610fd937/adaf2edda3cc7cd9d2011b873901213fb80e91bb.jpg)
+```javascript
+// 层序遍历
+BST.prototype.levelOrder = function (node, res) {
+  if (!res) {
+    res = [];
+  }
+  if (node) {
+    let queue = [node]; // root 入队
+    while(queue.length > 0) {
+      for (let i = 0; i < queue.length; i ++) {
+        let curr = queue.shift(); // 出队
+        res.push(curr.data); // 输出
+        if (curr.left !== null) queue.push(curr.left);
+        if (curr.right !== null) queue.push(curr.right);
+      }
+    }
+  }
+  return res;
+};
+```
 
 ## 特殊二叉树
 
