@@ -48,13 +48,20 @@ UDP协议提供的是一个无连接协议，每一个数据报都是独立的�
 
 HTTP 协议是建立在 TCP 协议之上的一种应用，连接使用的是 **请求-响应** 的方式。不仅在请求时需要建立 TCP 连接，还需要客户端在向服务器发出请求后，请求中要包含`请求方法`，`URI`，`协议版本`以及`其他相关的 MIME 样式`的消，服务端才能回复数据。在请求结束后就会主动释放连接没，因此 HTTP 是一种短连接。
 
-> 需要注意的是 HTTP/1.0 为每一次的 HTTP 请求/响应建立一条新的 TCP 链接，因此一个包含 HTML 内容和图片的页面将需要建立多次的短期的 TCP 链接，并且每个 TCP 链接的建立都需要 3 次握手。（HTTP/1.1 后提出可持续链接（keeplive），HTTP/2.0 后提出多路复用都可以重复使用传输消息，减少链接建立次数和开销）
+### 短链接与长连接
+
+> HTTP/1.0 为每一次的 HTTP 请求/响应建立一条新的 TCP 链接，因此一个包含 HTML 内容和图片的页面将需要建立多次的短期的 TCP 链接，并且每个 TCP 链接的建立都需要 3 次握手。
+
+- 在 HTTP/1.1 出现以前，默认都是短链接，如果需要使用长连接，使用 `Connection : Keep-Alive`
+- 从 HTTP/1.1 开始，默认都是“长连接”，如果需要断开连接，需要由客户端或服务端提出断开，使用 `Connection : close`
 
 ## HTTP/2
 
 HTTP/2 相比 HTTP/1 大幅度提升了网页的性能，其中主要包含了以下几种特性：
 
 ### 多路复用
+
+> 在出现多路复用之前，每一个下载资源都会占用一个连接数（举例：Apache 最大并发数 300，浏览器的最大请求数为 6，所以最高只能承载 50 个人的并发），并且文件传输是串行的，一个连接只传输一个资源（所以才会产生“雪碧图”和“js打包”这种技术。而多路复用最基本的一个特性就是传输是并行的，直接解决了上述问题，并且成本更低。）
 
 在理解 HTTP/2 的多路复用之前需要先理解两个概念 **帧（frame）** 和 **流（stream）**
 
@@ -73,7 +80,7 @@ HTTP/2 相比 HTTP/1 大幅度提升了网页的性能，其中主要包含了�
 
 ### 头信息压缩
 
-// 待更新
+HTTP/1.1不支持 header 数据的压缩，HTTP/2.0使用HPACK算法对 header 的数据进行压缩，这样数据体积小了，在网络上传输就会更快。
 
 ### 服务器推送
 
@@ -85,7 +92,9 @@ HTTP/2 相比 HTTP/1 大幅度提升了网页的性能，其中主要包含了�
 
 ## Cookie 
 
-HTTP 协议是无状态的，所以就需要使用 Cookies 了，服务器通过设置和读取 Cookies 中包含的信息，维护用户跟服务器会话的状态。
+HTTP 协议是无状态的，所以为了让 HTTP 协议尽可能简单，HTTP/1.1 引入了 Cookies 来保持状态信息，服务器通过设置和读取 Cookies 中包含的信息，维护用户跟服务器会话的状态。
+
+#### 1.特点
 
 - Cookie 是由服务器生产的，并保存在客户端的。
 - 服务器为用户生成一个唯一的识别码 Cookie Id，创建一个 Cookie 对象，并设置一个过期时间。
@@ -94,4 +103,98 @@ HTTP 协议是无状态的，所以就需要使用 Cookies 了，服务器通过
 - Cookie 会增加 HTTP 流量，并且是明文传递的，有安全隐患，可以被劫持篡改，建议进行加密。
 - Cookie 的大小限制在 4KB 左右。
 
-和 Session 的区别：Session是保存在服务器上的，每个用户都会产生一个Session，如果并发用户多，容易耗费大量内存，但安全性更好。最后就是 Cookie 支持跨域，而 Session 不支持跨域。
+#### 2. 用途
+
+- 会话状态管理（用户登录，购物车，游戏分数等）
+- 个性化设置（自定义设置，主题包）
+- 浏览器行文跟踪（跟踪分析用户行为）
+
+#### 3. 创建
+
+服务器发送的响应报文重包含 Set-Cookie 的 Header 字段，客户端收到报文后就会把 Cookies 保持到浏览器中。
+
+```http
+HTTP/1.0 200 OK
+Content-type: text/html
+Set-Cookie: a_cookie_key=A
+Set-Cookie: b_cookie_key=B
+
+[page content]
+```
+
+客户端之后向服务器发送请求，就会从浏览器中取出 Cookie 并将它包含到请求报文中
+
+```http
+GET /request.html HTTP/1.1
+Host: www.example.org
+Cookie: a_cookie_key=A; b_cookie_key=B
+```
+
+#### 4. 分类
+
+- 会话期 Cookie：浏览器关闭后被自动删除，只在会话中有效。
+- 持久性 Cookie：指定过期时间或者有效期之后就成为了持久性的 Cookie。
+
+ ```http
+Set-Cookie: id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT;
+ ```
+
+#### 5. 作用域
+
+Domain 标识指定了哪些主机可以接受 Cookie，如果不指定，默认为当前 Page 的主机。如果指定了 Domain，则一般包含子域名。例如设置 Domain=mozilla.org，则 Cookie 也包含在子域名中。
+
+Path 标识指定了主机下哪些路径可以接受 Cookie（该 URL 路径必须存在于请求 URL 中）。以字符 %x2F ("/") 作为路径分隔符，子路径也会被匹配。例如，设置 Path=/docs，则以下地址都会匹配：
+
+- /docs
+- /docs/Web/
+- /docs/Web/HTTP
+
+#### 6. HttpOnly
+
+HttpOnly 标识的 Cookie 不能被 JavaScript 脚本调用，跨站脚本攻击（XSS）常常使用 JavaScript 的 document.cookie API 窃取用户的 Cookie 信息，因此 HttpOnly 标记可以在一定程序上避免 XSS 攻击
+
+```http
+Set-Cookie: id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT; Secure; HttpOnly
+```
+
+#### 7. Secure
+
+Secure 标识的 Cookie 只能通过 HTTPS 协议加密过的请求发送给服务端。但即使设定了 Secure 标记，敏感信息也不可以通过 Cookie 传输，因为 Cookie 是不安全的。Secure 标记也无法提供确实的安全保障。
+
+## Session
+
+除了可以将用户信息通过 Cookie 存储到用户的浏览器，也可以利用 Session 存储在服务器。存储在服务器的信息更安全。Session 可以把信息存储到服务器的文件，数据库以及内存中，也可以存储到 Redis 中。
+
+维护用户登录的状态如下：
+
+- 用户登录时，提交用户名和密码的表单，放到 HTTP 请求报文中。
+- 服务器验证通过，生成登录令牌 SessionID，并以 SessionID 作为 Key，用户信息作为 Value 保存到 Redis 中。（可以设定有效期）
+- 服务器返回的响应报文 Set-Cookie 包含这个 SessionID，客户端收到报文并保存到 Cookies 中。
+- 客户端之后每一次请求都会在 Cookie 中携带 SessionID，服务端验证 SessionID ，从 Redis 中取出用户信息，并进行后续操作。
+
+### 禁用 Cookie
+
+此时无法使用 Cookie 保存用户信息，只能使用 Session，所以不能将 SessionId 保存到 Cookie 中。而是使用 URL Rewrite，将 SessionID 作为 URL 的参数进行传递。
+
+## HTTPS
+
+解决 HTTP 的安全问题：
+
+1. 使用明文通信，内容可能会被窃听
+2. 不验证通信方的身份，身份可能被伪装
+3. 无法证明报文的完整性，报文可能被篡改
+
+HTTPS 是让 HTTP 先和 SSL 通信，再由 SSL 和 TCP 通信，这是一种是用来了隧道进行通信的方式。通过使用 SSL，HTTPS 具有了加密，认证和完整性的保护。
+
+#### 加密
+
+加密方式主要分为两种：对称加密，非对称加密
+
+HTTPS 采用的是混合的加密方式，使用非对称加密用于传输对称密钥来保证安全性，之后用对称加密进行通信保证通信过程的效率。
+
+#### 缺点
+
+- 增加了加密解密的过程，因此速度会变慢。
+
+- 需要支付CA证书的授权费用
+
