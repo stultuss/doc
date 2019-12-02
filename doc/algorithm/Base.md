@@ -1,10 +1,10 @@
-算法基础
+算法思想
 =========================
 
 > 记录面试中的一些问题
 >
 
-## 分治
+## 分治法
 
 > 在计算机科学中，分治法是一种很重要的算法，核心就是“分而治之“
 
@@ -23,53 +23,25 @@
 
  ```javascript
 function quickSort(arr) {
-  if (arr.length < 2) {
-    return arr;
-  }
-  let left = [];
-  let right = [];
+  if (arr.length < 2) return arr;
+  let left = [], right = [];
   let base = arr[0]; // 取第一个做基准最简单，但有时会很糟糕。
   for (let i = 1; i < arr.length; i++) {
-    if (arr[i] < base) {
-      left.push(arr[i]);
-    } else {
-      right.push(arr[i]);
-    }
+    (arr[i] < base) ? left.push(arr[i]) : right.push(arr[i]);
   }
   return quickSort(left).concat(base, quickSort(right));
 }
  ```
 
-## 倍增
+## 倍增法
 
-在理解倍增算法之前，需要先了解 DFS（深度优先搜索），必须经过DFS，才可以使用倍增算法求 LCA
-
-### 深度优先搜索（DFS）
-
-DFS 是搜索算法的一种，它沿着树的深度遍历树的节点，尽可能深的搜索树的分支，当节点 v 所有的边都被探寻过，搜索将回溯到节点 v 的那条边的起始节点，递归这个过程，直到所有节点被访问。
-
-```javascript
-function deepFirstSearch(node, res) {
-  if (node) {
-    res.push(node.data);
-    const children = [];
-    if (node.left) children.push(node.left);
-    if (node.right) children.push(node.right);
-    for (let i = 0; i < children.length; i++)
-      // 每次递归的时候将 需要遍历的节点 和 节点所存储的数组传下去
-      deepFirstSearch(children[i], res);
-  }
-  return res;
-}
-```
-
-接下去继续讲倍增，倍增算法又称为最近公共祖先算法。
+倍增算法又称为最近公共祖先算法。
 
 基本思想：**利用二进制思想，想办法一步一步向上搜索变成以 2^k 的向上跳，所以定义 f\[\]\[\] 数组，使 f \[j\]\[i\] 表示节点 i 的 2^j 倍的祖先。**
 
 算法实现理解：
 
-1. 预处理出所有节点的深度和父节点。
+1. 预处理（DFS）出所有节点的深度和父节点。
    - BFS 防止爆栈，无法处理孩子个数。
    - DFS 可能爆栈，可以处理孩子个数，使用时建议扩栈。
 2. 处理每个节点的所有祖先节点。
@@ -80,10 +52,10 @@ function deepFirstSearch(node, res) {
 代码实现后缀排序：
 
 ```javascript
-// 等待实现，好难啊，技巧性太高了。。。继续理解
+
 ```
 
-## 贪心
+## 贪心法
 
 > 总的来说，贪心对程序员来说还是很简单的。平常工作中或有意或无意的会用到它。通常都是用递归实现。
 
