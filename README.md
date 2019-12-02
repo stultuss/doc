@@ -7,26 +7,14 @@ Developer Doc
 
 ## 基础
 
-- 网络
-  - [HTTP](https://github.com/stultuss/doc/blob/master/doc/net/HTTP.md)
-  - WebSocket
-  - gRPC
-- 数据结构
-  - 数组和链表
-  - 栈和队列
-  - 树和图
-    - [二叉树](https://github.com/stultuss/doc/blob/master/doc/structure/BinaryTree.md)
-    - [平衡树](https://github.com/stultuss/doc/blob/master/doc/structure/BalancedTree.md)
-    - B-Tree
-  - 字典树 / 前缀树
-  - 哈希表
-  - 堆
-  - 字符串
-  
-- 算法
-  - [算法基础](https://github.com/stultuss/doc/blob/master/doc/algorithm/Base.md)
+- [网络](https://github.com/stultuss/doc/blob/master/doc/net/HTTP.md)
+- [算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Base.md)
   - [排序算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Sort.md)
   - [搜索算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Search.md)
+
+- [查找树](https://github.com/stultuss/doc/blob/master/doc/structure/SearchTree.md)
+  - [平衡树](https://github.com/stultuss/doc/blob/master/doc/structure/BalancedTree.md)
+  - B-Tree
 
 ## 关于语言
 
@@ -34,8 +22,6 @@ Developer Doc
 - [JavaScript](https://github.com/stultuss/doc/blob/master/doc/language/JavaScript.md)
   - [FLUX](https://github.com/stultuss/doc/blob/master/doc/language/JavaScript-FLUS.md)
   - [React](https://github.com/stultuss/doc/blob/master/doc/language/JavaScript-React.md)
-    - 不可变数据结构 immutable 实现
-    - 深克隆
   - [ReactNative](https://github.com/niklaus0823/demo-react-native)
 - Node.js
   - [进程](https://github.com/stultuss/doc/blob/master/doc/language/Node.js-Process.md)
