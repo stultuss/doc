@@ -24,13 +24,15 @@ function BubbleSort(arr) {
     for (let j = 1; j < n - i; j++) {
       // 左边 > 右边，交换数值
       if (arr[j - 1] > arr[j]) {
-        arr[j] = arr[j] ^ arr[j - 1];
-        arr[j - 1] = arr[j] ^ arr[j - 1];
-        arr[j] = arr[j] ^ arr[j - 1];
+         swap(arr, i, j);
       }
     }
   }
   return arr;
+}
+
+function swap(arr, i, j) {
+  [arr[i], arr[j]] = [arr[j], arr[i]];
 }
 ```
 
@@ -58,15 +60,13 @@ function SelectSort(arr) {
         minIndex = j;
       }
     }
-    
-    // 交换
-    if (arr[minIndex] < arr[i]) {
-      arr[i] = arr[i] ^ arr[minIndex];
-      arr[minIndex] = arr[i] ^ arr[minIndex];
-      arr[i] = arr[i] ^ arr[minIndex];
-    }
+    swap(arr, i, minIndex);
   }
   return arr;
+}
+
+function swap(arr, i, j) {
+  [arr[i], arr[j]] = [arr[j], arr[i]];
 }
 ```
 
@@ -93,12 +93,14 @@ function InsertionSort(arr) {
       if (arr[j - 1] <= arr[j]) {
         break;
       }
-      arr[j] = arr[j] ^ arr[j - 1];
-      arr[j - 1] = arr[j] ^ arr[j - 1];
-      arr[j] = arr[j] ^ arr[j - 1];
+    swap(arr, i, j);
     }
   }
   return arr;
+}
+
+function swap(arr, i, j) {
+  [arr[i], arr[j]] = [arr[j], arr[i]];
 }
 ```
 
@@ -119,9 +121,7 @@ function InsertionSort(arr) {
 ```javascript
 function MergeSort(arr) {
   let n = arr.length;
-  if (n < 2) {
-    return arr;
-  }
+  if (n < 2) return arr;
   
   // 第一步，将数组拆分为左右各一半的数组，
   let mid = Math.floor(n / 2);
@@ -179,47 +179,97 @@ function MergeSort(arr) {
 
 ```javascript
 function QuickSort(arr) {
-  
-  function swap(key1, key2) {
-    if (key1 === key2) {
-      return;
-    }
-    arr[key1] = arr[key1] ^ arr[key2];
-    arr[key2] = arr[key1] ^ arr[key2];
-    arr[key1] = arr[key1] ^ arr[key2];
-  }
-  
   let n = arr.length;
-  if (n < 2) {
-    return arr;
-  }
-  
-  // 取三数的 key
-  let low = 0;
-  let mid = Math.floor(n / 2);
-  let high = n;
+  if (n < 2) return arr;
   
   // 比较三值，进行交换，升序排列
-  if (arr[low] > arr[mid]) {
-    swap(low, mid)
-  }
-  if (arr[mid] > arr[high]) {
-    swap(mid, high)
-  }
+  let low = 0, mid = Math.floor(n / 2), high = n;
+  if (arr[low] > arr[mid]) swap(arr, low, mid);
+  if (arr[mid] > arr[high]) swap(arr, mid, high);
   
   // 对数组进行分区
   let base = arr.splice(mid, 1)[0];
-  let left = [];
-  let right = [];
+  let left = [], right = [];
   for (let i = 0; i < arr.length; i++) {
-    if (arr[i] < base) {
-      left.push(arr[i]);
-    } else {
-      right.push(arr[i]);
-    }
+    (arr[i] < base) ? left.push(arr[i]) : right.push(arr[i]);
   }
   return QuickSort(left).concat(base, QuickSort(right));
 }
+
+function swap(arr, i, j) {
+  [arr[i], arr[j]] = [arr[j], arr[i]];
+}
 ```
 
-快速排序是一个不稳定的排序算法，当基准值选的很差的时候，最坏情况下复杂度为 O(n²)，其平均复杂度为O(n log n)。空间复杂度为 O(log n)。
+快速排序是一个不稳定的排序算法，当基准值选的很差的时候，最坏情况下复杂度为 O(n²)，其平均复杂度为nlogn)。空间复杂度为 O(logn)。
+
+## 堆排序
+
+堆排序是指利用堆这种数据结构所设计的一种排序算法。堆积是一个近似完全二叉树的结构，并同时满足堆的性质：即子结点的键值或索引总是小于（或者大于）它的父节点。原理：
+
+- 将初始二叉树转化为大顶堆，此时根节点为最大值，将其与最后一个节点交换。
+- 除开最后一个节点，将其他节点组成一个新堆并转化为大顶堆，此时根节点为次最大值，将其与最后一个节点交换
+- 重复步骤2，直到堆中元素个数为1，排序完成
+
+通过以上原理，可以将堆排序的过程分解成两步：建堆和排序
+
+1. 将数组 **原地** （不借助其他数组）建成一个大顶堆。
+2. 从下往上，将最后一个节点与根节点交换，每次堆化完成后，根节点总是最大的节点。
+
+```javascript
+function HeapSort(arr) {
+  let n = arr.length;
+  if (n < 2) return arr;
+  
+  // 初始化大顶堆
+  // 因为大顶堆是一个完全二叉树，所以从 n/2 到 1 都属于子树节点，n / 2+ 1 到 n 都属于叶子节点，不需要堆化
+  for (let i = Math.floor(n / 2); i >= 0; i--) {
+    heapify(arr, n, i);
+  }
+  
+  // 首尾交换，并重新堆化，每次堆化，堆顶总是最大值
+  let len = n;
+  for (let i = n - 1; i > 0; i--) {
+    swap(arr, 0, i);
+    len--;
+    heapify(arr, len, 0);
+  }
+  return arr;
+  
+  // 堆化
+  function heapify(arr, len, i) {
+    // 当前子树节点 i 的左右子节点的位置总是 2 * i + 1 和 2 * i + 2;
+    let largest = i, left = 2 * i + 1, right = 2 * i + 2;
+    if (left < len && arr[left] > arr[largest]) largest = left;
+    if (right < len && arr[right] > arr[largest]) largest = right;
+    if (largest !== i) {
+      swap(arr, i, largest);
+      heapify(arr, largest);
+    }
+  }
+}
+
+function swap(arr, i, j) {
+  [arr[i], arr[j]] = [arr[j], arr[i]];
+}
+```
+
+堆排序也是不稳定的排序算法，并且不论什么情况下它的时间复杂度都为O(nlogn)，空间复杂度为O(1).
+
+### 扩展问题：堆排序比快速排序更快吗？
+
+堆排序的时间复杂度为O(nlogn)，而快速排序平均也是O(nlogn)，最坏情况下是O(n²)，是不是说明堆排序比快速排序更优秀，效率更高？
+
+```
+数据规模    快速排序      堆排序
+1000万       0.71        3.51
+5000万       3.75       26.54  
+1亿          7.72       61.35
+```
+
+从排序测试的统计结果来看，堆排序并没有比快速排序更优秀，原因有以下几点：
+
+1. 堆排序访问数据的方式没有快速排序友好。快速排序是局部顺序访问，而堆排序是跳着访问再进行堆化，几乎不访问相邻元素，对 CPU 缓存不友好。
+2. 数学上的时间复杂度并不代表实际运行上的情况
+
+**标准库 Sort 就是使用的是优化后的快速排序：先快速排序，当递归深度达到一个阈值就改为堆排，然后对最后的几个进行插入排序**
