@@ -273,3 +273,48 @@ function swap(arr, i, j) {
 2. 数学上的时间复杂度并不代表实际运行上的情况
 
 **标准库 Sort 就是使用的是优化后的快速排序：先快速排序，当递归深度达到一个阈值就改为堆排，然后对最后的几个进行插入排序**
+
+## 计数排序
+
+计数排序非常的符合直觉，简单概括就是先遍历一边，找到最小值 n 和最大值 m，然后构建一个长度为 m - n 的空间，再次遍历记录每个数出现的位置及次数，最后根据这个空间取出排序的结果。
+
+> 正常的计数排序不能对负数进行排序，下面的进行了优化.
+
+```javascript
+function CounterSort(arr) {
+  let n = arr.length;
+  if (n < 2) return arr;
+  
+  // 找到最大最小值，
+  let pCounter = new Array(Math.max(...arr) + 1);
+  let nCounter = new Array(Math.abs(Math.min(...arr)));
+  for (let v of arr) {
+    if (v < 0) {
+      v = Math.abs(v);
+      (!nCounter[v]) ? nCounter[v] = 1 : nCounter[v]++
+    } else {
+      (!pCounter[v]) ? pCounter[v] = 1 : pCounter[v]++
+    }
+  }
+  let res = [];
+  if (nCounter.length > 0) {
+    for (let i = nCounter.length - 1; i >= 0; i--) {
+      while (nCounter[i] > 0) {
+        res.push(-i);
+        nCounter[i]--;
+      }
+    }
+  }
+  if (pCounter.length > 0) {
+    for (let i = 0; i <= pCounter.length - 1; i++) {
+      while (pCounter[i] > 0) {
+        res.push(i);
+        pCounter[i]--;
+      }
+    }
+  }
+  return res;
+}
+```
+
+计数排序的问题有很多，原版是不支持负数排序的，并且无法对浮点数排序，类似 [4000, 5000] 的数组，会有内存的浪费，等等等等，但都可以通过算法上进行弥补，最后的执行效率并不如快速排序等常用排序算法更有效率。
