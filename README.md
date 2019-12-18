@@ -7,6 +7,10 @@ Developer Doc
 
 ## 基础
 
+- 部署
+  - [MacOS](https://github.com/stultuss/doc/blob/master/doc/deploy/MacOS.md)
+  - [Centos](https://github.com/stultuss/doc/blob/master/doc/deploy/Centos.md)
+
 - [网络](https://github.com/stultuss/doc/blob/master/doc/net/HTTP.md)
 - [算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Base.md)
   - [排序算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Sort.md)
@@ -20,7 +24,6 @@ Developer Doc
 ## 关于语言
 
 - [PHP](https://github.com/stultuss/doc/blob/master/doc/language/PHP.md)
-  - [ENV](https://github.com/stultuss/doc/blob/master/doc/language/PHP-ENV.md)
 - [JavaScript](https://github.com/stultuss/doc/blob/master/doc/language/JavaScript.md)
   - [FLUX](https://github.com/stultuss/doc/blob/master/doc/language/JavaScript-FLUS.md)
   - [React](https://github.com/stultuss/doc/blob/master/doc/language/JavaScript-React.md)
@@ -58,6 +61,7 @@ Developer Doc
 ## 关于数据库
 
 - [MySQL](https://github.com/stultuss/doc/blob/master/doc/db/MySQL.md)
+  - [DBProxy](https://github.com/stultuss/doc/blob/master/doc/db/MySQL-DBProxy.md)
 - [Redis](https://github.com/stultuss/doc/blob/master/doc/db/Redis.md)
 - [Memcache](https://github.com/stultuss/doc/blob/master/doc/db/Memcache.md)
 - Mongodb
