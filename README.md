@@ -7,10 +7,6 @@ Developer Doc
 
 ## 基础
 
-- 部署
-  - [MacOS](https://github.com/stultuss/doc/blob/master/doc/deploy/MacOS.md)
-  - [Centos](https://github.com/stultuss/doc/blob/master/doc/deploy/Centos.md)
-
 - [网络](https://github.com/stultuss/doc/blob/master/doc/net/HTTP.md)
 - [算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Base.md)
   - [排序算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Sort.md)
@@ -24,6 +20,8 @@ Developer Doc
 ## 关于语言
 
 - [PHP](https://github.com/stultuss/doc/blob/master/doc/language/PHP.md)
+  - [MacOS 环境部署](https://github.com/stultuss/doc/blob/master/doc/deploy/MacOS.md)
+  - [Centos 环境部署](https://github.com/stultuss/doc/blob/master/doc/deploy/Centos.md)
 - [JavaScript](https://github.com/stultuss/doc/blob/master/doc/language/JavaScript.md)
   - [FLUX](https://github.com/stultuss/doc/blob/master/doc/language/JavaScript-FLUS.md)
   - [React](https://github.com/stultuss/doc/blob/master/doc/language/JavaScript-React.md)
@@ -65,10 +63,11 @@ Developer Doc
 - Mongodb
 - Cassandra
 
-## 关于组件通信
+## 关于通信
 
 - gRPC
 - Protocol Buffers
+- Restful API
 
 ## 关于日志系统
 
