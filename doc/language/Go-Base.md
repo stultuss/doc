@@ -1,86 +1,257 @@
 Golang 基础
 =========================
-> 自 go 1.11 之后，golang 支持了[modules](https://github.com/golang/go/wiki/Modules)，解决了包管理的问题，这是一个重大的变化。由此开始，我才逐渐对 golang 产生兴趣，虽然之前也有零零碎碎写过几个 golang 的工具，但对 golang 都处于观望态度。
+> 自 go 1.11 之后，golang 支持了[modules](https://github.com/golang/go/wiki/Modules)，解决了包管理的问题，这是一个重大的变化。Go modules 是 Go 语言的依赖解决方案，发布于 Go1.11，成长于 Go1.12，丰富于 Go1.13，正式于 Go1.14 推荐在生产上使用。正式 “淘汰” 之前的 GOPATH 的使用模式。
 
-## 随机数
+## 基础配置
 
-你可以使用 `Seed(value)` 函数来提供伪随机数的生成种子，一般情况下都会使用当前时间的纳秒级数字。随机方法 `Math/rand` 必须结合 `Seed` 才可以正常获得随机值，否则只会是同一个值。
+```bash
+$ vim ~/.bashrc
 
-## 变量传递
+export GOPATH="/Users/proj/";
+export GOENV="/Users/proj/.env"
 
-Go 方法和函数默认是按值传递，每次将一个变量作为参数传递，都会创建一个新的变量并将其传递给所调用的函数和方法，副本分配在不同的内存地址，**修改变量数据不会影响原来的变量**。
+$ source ~/.bashrc
+```
 
-下面例子表示，update 并没有修改 p1，而是复制了一份 p1 并进行了修改，所以存在 **内存的浪费**。
+## 环境变量
+
+### Go Modules
+
+> Go Modules 的前身是 vgo，在 Go 1.11 版本之后就不再需要额外安装 vgo，使用 go mod 命令替代
+
+在 Go modules 中，我们能够使用如下命令进行操作：
+
+| 命令            | 作用                             |
+| --------------- | -------------------------------- |
+| go mod init     | 生成 go.mod 文件                 |
+| go mod download | 下载 go.mod 文件中指明的所有依赖 |
+| go mod tidy     | 整理现有的依赖                   |
+| go mod graph    | 查看现有的依赖结构               |
+| go mod edit     | 编辑 go.mod 文件                 |
+| go mod vendor   | 导出项目所有的依赖到vendor目录   |
+| go mod verify   | 校验一个模块是否被篡改过         |
+| go mod why      | 查看为什么需要依赖某模块         |
+
+Go语言提供了 GO111MODULE 这个环境变量来作为 Go modules 的开关，其允许设置以下参数：
+
+```bash
+# Go 1.13 及以上
+$ go env -w GO111MODULE=on
+
+# Mac & Linux
+$ vim ~/.bashrc
+export GO111MODULE=on # auto | on | off
+$ source ~/.bashrc
+```
+
+> 当 modules 功能启用时，依赖包的存放位置变更为`$GOPATH/pkg`，允许同一个package多个版本并存，且多个项目可以共享缓存的 module。
+
+### Go Proxy
+
+这个环境变量主要是用于设置 Go 模块代理（Go module proxy），其作用是用于使 Go 在后续拉取模块版本时能够脱离传统的 VCS 方式，直接通过镜像站点来快速拉取。
+
+```bash
+# Go 1.13 及以上
+$ go env -w GOPROXY=https://goproxy.io,direct
+
+# Mac & Linux
+$ vim ~/.bashrc
+export GOPROXY=https://goproxy.io,direct
+$ source ~/.bashrc
+```
+
+七牛云提供国内代理 [goproxy.cn](https://github.com/goproxy/goproxy.cn/blob/master/README.zh-CN.md)，缺点：如果库有新的修改，需要一定时间才会刷新。
+
+##  初始化项目
+
+创建并进入 go-demo 文件夹，使用 `go mod` 建立 modules
+
+```bash
+$ go mod init github.com/stultuss/go-demo
+
+go: creating new go.mod: module github.com/stultuss/go-demo
+```
+
+这是会在项目下生成一个 go.mod 文件，内容为：
+
+```
+module github.com/stultuss/go-demo
+
+go 1.14
+```
+
+接着约定目录结构以及编写示例代码
+
+```
+/
+├── main.go
+└── api
+    └── getdemo.go
+```
+
+1. ./api/getdemo.go
+
+```go
+package api
+
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
+
+func GetDemo(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"code":    0,
+		"message": "success",
+	})
+}
+```
+
+2. ./main.go
 
 ```go
 package main
 
 import (
-	"fmt"
+	"github.com/gin-gonic/gin"
+	pkgapi "github.com/stultuss/go-demo/api"
+	"net/http"
 )
 
-type Person struct {
-	Id   int64  `json:"id"`
-	Name string `json:"name"`
-}
-
-func update(p Person, name string) Person {
-	p.Name = name
-  return p
-}
-
 func main() {
-	p1 := Person{
-		Id:   1,
-		Name: "person1",
-	}
+	router := gin.Default()
 
-	fmt.Println(p1.Name) // persion1
-	p2 := update(p1, "person2")
-	fmt.Println(p1.Name) // persion1
-	fmt.Println(p2.Name) // persion2
+	router.GET("/demo", pkgapi.GetDemo)
+
+	s := &http.Server{
+		Addr:    ":8080",
+		Handler: router,
+	}
+	_ = s.ListenAndServe()
 }
 
 ```
 
-修改一下例子，将值传递改为引用传递，问题就解决了。
+接着运行命令行进行构建并运行
+
+```bash
+$ go build
+$ go run main.go
+# or
+$ ./go-demo
+```
+
+## [编码风格](https://www.bookstack.cn/read/go-code-convention/zh-CN-README.md)
+
+### **1、包命名：package**
+
+保持package的名字和目录保持一致，尽量采取有意义的包名，简短，有意义，尽量和标准库不要冲突。包名应该为**小写**单词，不要使用下划线或者混合大小写。
 
 ```go
+package demo
+// or
 package main
+```
 
-import (
-	"fmt"
+### **2、 文件命名**
+
+尽量采取有意义的文件名，简短，有意义，必须为 **小写** 单词。如非必要请勿使用 **下划线** 分隔各个单词。
+
+```bash
+# 平台区分
+bolt_windows.go
+
+# 版本区分
+trap_windows_1.4.go
+
+# 测试单元
+trap_windows_1.4_test.go
+
+# 类型区分
+trap_windows_amd64.go
+```
+
+### **3、 结构体命名**
+
+- 采用驼峰命名法，首字母根据访问控制大写或者小写
+- struct 申明和初始化格式采用多行，例如下面：
+
+```go
+// 多行申明
+type User struct{
+    Username  string
+    Email     string
+}
+
+// 多行初始化
+u := User{
+    Username: "astaxie",
+    Email:    "astaxie@gmail.com",
+}
+```
+
+### **4、 接口命名**
+
+- 命名规则基本和上面的结构体类型
+- 单个函数的结构名以 “er” 作为后缀，例如 Reader , Writer 。
+
+```go
+type Reader interface {
+  Read(p []byte) (n int, err error)
+}
+```
+
+### **5、变量命名**
+
+- 和结构体类似，变量名称一般遵循驼峰法，首字母根据访问控制原则大写或者小写，但遇到特有名词时，需要遵循以下规则：
+- 如果变量为私有，且特有名词为首个单词，则使用小写，如 apiClient
+- 其它情况都应当使用该名词原有的写法，如 APIClient、repoID、UserID
+- 错误示例：UrlArray，应该写成 urlArray 或者 URLArray
+- 若变量类型为 bool 类型，则名称应以 Has, Is, Can 或 Allow 开头
+
+```go
+var isExist bool
+var hasConflict bool
+var canManage bool
+var allowGitHook bool
+```
+
+### **6、常量命名**
+
+常量均需使用全部大写字母组成，并使用下划线分词
+
+```go
+const APP_VER = "1.0"
+```
+
+如果是枚举类型的常量，需要先创建相应类型：
+
+```go
+type Scheme string
+
+const (
+    HTTP  Scheme = "http"
+    HTTPS Scheme = "https"
 )
-
-type Person struct {
-	Id   int64  `json:"id"`
-	Name string `json:"name"`
-}
-
-func update(p *Person, name string) {
-	p.Name = name
-}
-
-func main() {
-	p1 := Person{
-		Id:   1,
-		Name: "person1",
-	}
-
-	fmt.Println(p1.Name) // persion1
-	update(&p1, "person2")
-	fmt.Println(p1.Name) // persion2
-}
 
 ```
 
-注意点：
+### **7、 关键字**
 
-1. 变量是一个**大的结构**，建议使用指针传递，避免在内存中复制整个结构。
-2. 变量是 map , chan, slice，这三种都属于引用类型。但是 slice 的内存地址可以直接通过 `%p` 打印，不需要 `&` 取地址符转换。
-3. 通过在 update 方法里面打印变量的内存地址，可以确认所有的传参都是值传递，都是一个副本。当参数是引用类型的时候，即可修改参数数据。**引用类型和传引用是两个概念**
+下面的列表显示了Go中的保留字。这些保留字不能用作常量或变量或任何其他标识符名称。
+
+| break    | default     | func   | interface |
+| -------- | ----------- | ------ | --------- |
+| case     | defer       | go     | map       |
+| chan     | else        | goto   | package   |
+| const    | fallthrough | if     | range     |
+| continue | for         | import | return    |
 
 
+
+https://www.bookstack.cn/read/go-code-convention/zh-CN-naming_rules.md
+
+https://www.lagou.com/lgeduarticle/106838.html
 
 ## 文章
 
