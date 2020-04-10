@@ -65,9 +65,9 @@ Developer Doc
 
 ## 关于通信
 
-- gRPC
+- [RESTful API]((https://github.com/stultuss/doc/blob/master/doc/protocol/RESTfulAPI.md))
 - Protocol Buffers
-- Restful API
+- gRPC
 
 ## 关于日志系统
 
