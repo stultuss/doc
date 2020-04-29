@@ -92,5 +92,6 @@ Developer Doc
   - Kafka
 
 ## TODO
+1. 服务发现：Consul & etcd & Zookeeper
 2. 虚拟 DOM 实现原理
 3. Immutable.js的实现机制
