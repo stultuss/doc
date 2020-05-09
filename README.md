@@ -5,7 +5,7 @@ Developer Doc
 
 ---
 
-## 基础
+## 开发基础
 
 - [网络](https://github.com/stultuss/doc/blob/master/doc/net/HTTP.md)
 - [算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Base.md)
@@ -17,7 +17,7 @@ Developer Doc
   - [平衡树](https://github.com/stultuss/doc/blob/master/doc/structure/BalancedTree.md)
   - B-Tree
 
-## 关于语言
+## 开发语言
 
 - [PHP](https://github.com/stultuss/doc/blob/master/doc/language/PHP.md)
   - [MacOS 环境部署](https://github.com/stultuss/doc/blob/master/doc/deploy/MacOS.md)
@@ -48,42 +48,60 @@ Developer Doc
   - 进阶
   - 其他
 
-## 关于容器
+## 通信
 
-- Docker
-- Kubernetes
-- Istio
+- gRPC
+- WebSocket
 
-## 关于数据库
+## 数据库
 
 - [MySQL](https://github.com/stultuss/doc/blob/master/doc/db/MySQL.md)
   - [DBProxy](https://github.com/stultuss/doc/blob/master/doc/db/MySQL-DBProxy.md)
 - [Redis](https://github.com/stultuss/doc/blob/master/doc/db/Redis.md)
 - [Memcache](https://github.com/stultuss/doc/blob/master/doc/db/Memcache.md)
 - Mongodb
-- Cassandra
+- NoSQL数据库集群算法
+  - 一致性哈希
 
-## 关于通信
+## 运维工具
+
+- Docker
+- Kubernetes
+- Istio
+
+## 接口规范
 
 - [RESTful API](https://github.com/stultuss/doc/blob/master/doc/protocol/RESTfulAPI.md)
 - Protocol Buffers
-- gRPC
 
-## 关于日志系统
+## 分布式
 
-- Filebeat
-- Elasticsearch
-- Logstash
-- Kibana
+- 原理
+  - 强一致性
+  - 弱一致性
+  - 最终一致性
+  - 读写一致性
+  - 因果一致性
+  - 单调读
+  - 事物补偿
+  - CAP 原理
+- 算法
+  - Raft 算法
+  - Paxos 算法
 
-## 关于监控系统
+- 工具
+  - [ETCD]()
+  - Zookeeper
+  - Consul
+
+## 监控
 
 - Prometheus
 - Grafana
 - Jaeger
 - Zipkin
 
-## 其他工具
+## 工具
 
 - 代理
   - Nginx
@@ -91,8 +109,3 @@ Developer Doc
 - 消息队列
   - Kafka
   - Pulsar
-
-## TODO
-1. 服务发现：Consul & etcd & Zookeeper
-2. 虚拟 DOM 实现原理
-3. Immutable.js的实现机制
