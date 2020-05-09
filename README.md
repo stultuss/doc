@@ -65,7 +65,7 @@ Developer Doc
 
 ## 关于通信
 
-- [RESTful API]((https://github.com/stultuss/doc/blob/master/doc/protocol/RESTfulAPI.md))
+- [RESTful API](https://github.com/stultuss/doc/blob/master/doc/protocol/RESTfulAPI.md)
 - Protocol Buffers
 - gRPC
 
@@ -90,6 +90,7 @@ Developer Doc
   - Envoy
 - 消息队列
   - Kafka
+  - Pulsar
 
 ## TODO
 1. 服务发现：Consul & etcd & Zookeeper
