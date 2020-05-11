@@ -72,7 +72,7 @@ Developer Doc
 ## 接口规范
 
 - [RESTful API](https://github.com/stultuss/doc/blob/master/doc/protocol/RESTfulAPI.md)
-- Protocol Buffers
+- [Protocol Buffers](https://github.com/stultuss/doc/blob/master/doc/protocol/ProtocolBuffers.md)
 
 ## 分布式
 
