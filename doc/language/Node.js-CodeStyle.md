@@ -1,9 +1,5 @@
 # 编码规范
 
-[TOC]
-
----
-
 ## 前言
 在 airebnb 编码规范的基础上修改的编码规范，如果和本规范有冲突部分，以本规范为准。
 
@@ -24,22 +20,22 @@ tslint.json
 }
 ```
 
-![tslint](./img/tslint.png)
+![tslint](https://github.com/stultuss/doc/blob/master/images/language/tslint.png?raw=true)
 
 ## 配置 Webstorm Format Tools
 
 1. 强制 Format 双引号为单引号
 2. 强制在每行代码以“;”符号结尾
 
-![punctuation](./img/punctuation.png)
+![punctuation](https://github.com/stultuss/doc/blob/master/images/language/punctuation.png?raw=true)
 
 3. 强制缩进 2 格
 
-![tabs&indents](./img/tabs&indents.png)
+![tabs&indents](https://github.com/stultuss/doc/blob/master/images/language/tabs&indents.png?raw=true)
 
 4. “{”后和“}”前增加空格
 
-![braces](./img/braces.png)
+![braces](https://github.com/stultuss/doc/blob/master/images/language/braces.png?raw=true)
 
 ## 编码规范
 
@@ -201,42 +197,6 @@ message Demo {
 ### 算法结构
 需要检查每个算法节点，保证系统的性能消耗是在可节省的极限状态。关键词：内存，CPU，I/O
 
-### MVC 模式
-#### 项目文件夹结构
-
-```
-.
-├── /__tests__/                 # 单元测试用例
-├── /bash/                      # 命令行脚本文件夹，内容及层级可以自定义
-├── /build/                     # 从TS代码编译出来的JS代码文件
-├── /node_modules/              # NPM三方包
-├── /proto/                     # 当前项目自身的protobuf定义文件，注意文件夹层级需要和proto文件中的包路径一致
-├── /spm_protos/                # 第三方的proto定义文件，由SASDN-PM统一管理
-├── /src/                       # 项目源代码
-│   ├── /helper/                # Helper工具类，该文件夹内的工具类及层级可以自定义
-│   ├── /logic/                 # 实际业务逻辑文件夹，该文件夹内的层级可以自定义
-│   ├── /proto/                 # Protos对应的代码：依据根目录的protos文件，用工具自动生成
-│   ├── /router/                # Gateway Routers：依据swagger.json配置自动生成
-│   ├── /services/              # The service file generated through the proto file
-│   ├── /demoGatewayServer.ts   # Gateway Server demo
-│   ├── /MSClientOrder.ts       # Microservice Client demo
-│   ├── /demoMSServer.ts        # Microservice Server demo
-│   ├── /index.js               # Server-side startup script
-│   └── ...                     # Other core framework modules
-├── config.dev.json             # Global application settings when env = developement
-├── config.json                 # Global application settings when env = production
-├── index.js                    # Server-side startup script
-├── README.md                   # README file
-├── package.json                # The list of 3rd party libraries and utilities
-├── spm.json                    # The list of 3rd party sasdn packages
-└── tsconfig.json               # typescript config
-```
-
-#### 规范
-1. 由 CLI 工具生成的代码中，不能写逻辑。只能写逻辑调用，使得 Controller 代码简单，干净。
-
-> 实际上 /src 文件夹下的“router”，“services”内的代码，实质上属于 Controller，以一个服务器的 services 为例子
-
 ``` typescript
 export const getDemoHandler: RpcMiddleware = async (ctx: RpcContext, next: MiddlewareNext) => {
     const call: ServerUnaryCall = ctx.call as ServerUnaryCall;
@@ -249,8 +209,3 @@ export const getDemoHandler: RpcMiddleware = async (ctx: RpcContext, next: Middl
     return Promise.resolve();
 };
 ```
-
-## CHANGLELOG
-
-* 2017.09.30
-> fengjie，版本1.0，编写 SASDN 编码卡规范第一版。
