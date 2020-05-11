@@ -89,13 +89,12 @@ Developer Doc
 - 算法
   - Raft 算法
   - Paxos 算法
-
 - 工具
   - [ETCD](https://github.com/stultuss/doc/blob/master/doc/distributed/ETCD.md)
   - Zookeeper
   - Consul
-
-- [微服务](https://github.com/stultuss/doc/blob/master/doc/micoservice/Base.md)
+- [微服务](https://github.com/stultuss/doc/blob/master/doc/microservice/Base.md)
+  - [链路追踪：Zipkin](https://github.com/stultuss/doc/blob/master/doc/microservice/Zipkin.md)
 
 ## 监控
 

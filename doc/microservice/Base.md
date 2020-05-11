@@ -86,7 +86,7 @@
 
 微服务架构从来就不是解决软件工程的银弹，首先来看一张图，再问问自己准备好挑战微服务架构了没有？图片来源《[阿里巴巴之微服务之熵](https://zhuanlan.zhihu.com/p/31324360)》
 
-![微服务之殇](https://raw.githubusercontent.com/niklaus0823/niklaus0823.github.io/master/_posts/images/2018-03-27-01.jpg)
+![微服务之殇](https://github.com/stultuss/doc/blob/master/images/microservice/Base.jpg?raw=true)
 
 从这张图上我们可以看出，伴随着业务增长，熵值成指数级别上升，怎么去梳理和解决这个问题就尤为重要。
 
