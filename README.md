@@ -33,6 +33,7 @@ Developer Doc
   - [事件](https://github.com/stultuss/doc/blob/master/doc/language/Node.js-Event.md)
   - [v8 引擎](https://github.com/stultuss/doc/blob/master/doc/language/Node.js-v8.md)
   - [Debug & Profile](https://github.com/stultuss/doc/blob/master/doc/language/Node.js-Profile.md)
+  - [编码规范](https://github.com/stultuss/doc/blob/master/doc/language/Node.js-CodeStyle.md)
   - [其他](https://github.com/stultuss/doc/blob/master/doc/language/Node.js-Others.md)
 - [Golang](https://github.com/Unknwon/the-way-to-go_ZH_CN/)
   - [基础](https://github.com/stultuss/doc/blob/master/doc/language/Go-Base.md)
