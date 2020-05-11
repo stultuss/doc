@@ -51,7 +51,7 @@ Developer Doc
 
 ## 通信
 
-- gRPC
+- [gRPC](https://github.com/stultuss/doc/blob/master/doc/rpc/gRPC.md)
 - WebSocket
 
 ## 数据库
