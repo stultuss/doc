@@ -2,9 +2,7 @@
 
 > etcd v2 升级到 etcd v3 并发性能提升巨大，在 v3 版本中使用了 grpc gateway 来替代了 v2 的 proxy， etcd proxy 则已经被弃用
 
-## Install
-
-### 1. 单机安装
+## 单机
 
 ```shell
 ETCD_VER=v3.4.7
@@ -26,7 +24,7 @@ ${DOWNLOAD_DIR}/etcd --version
 ${DOWNLOAD_DIR}/etcdctl version
 ```
 
-### 2. Docker 安装
+## 容器
 
 **创建 discovery**
 
@@ -91,9 +89,9 @@ nohup ${DIR}/etcd \
   --discovery ${DISCOVERY} >> ${DIR}/${THIS_NAME}/output.log 2>&1 & echo $! > run_${THIS_NAME}.pid
 ```
 
+## Proxy 模式
 
-
-```
+```sh
 nohup /tmp/etcd/etcd  \
      -name proxy \
      -proxy on  \
