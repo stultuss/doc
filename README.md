@@ -15,7 +15,7 @@ Developer Doc
   
 - [查找树](https://github.com/stultuss/doc/blob/master/doc/structure/SearchTree.md)
   - [平衡树](https://github.com/stultuss/doc/blob/master/doc/structure/BalancedTree.md)
-  - [字典树](https://github.com/stultuss/doc/blob/master/doc/structure/TireTree.md)
+  - [字典树](https://github.com/stultuss/doc/blob/master/doc/structure/TrieTree.md)
   - B-Tree/B+Tree
 
 ## 开发语言
