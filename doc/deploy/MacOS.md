@@ -1,4 +1,4 @@
-# MacOS LNMP 本地部署
+# MacOS 下部署 PHP 及其开发环境
 
 ### PHP & Apache
 

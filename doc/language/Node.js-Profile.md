@@ -1,8 +1,6 @@
 
 Node.js Profile
 =========================
-> 记录日常工作中的一些问题
-
 ## Debug 工具
 
 Node Inspector 是 Node.js 应用程序的调试器接口，通过启动 Node 进程使用 `--inspect` 参数，就可以使用 Chrome DevTools 工具来进行 debugging。
