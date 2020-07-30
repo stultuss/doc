@@ -624,9 +624,9 @@ v8.10.0
 安装 java SE 环境
 
 ```bash
-# https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+# https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html
 $ cd /opt/lib/downloads
-$ tar -C /opt/lib -zxvf jdk-8u231-linux-x64.tar.gz
+$ tar -C /opt -zxvf jdk-8u231-linux-x64.tar.gz
 $ vim /etc/profile
 
 export JAVA_HOME=/opt/lib/jdk1.8.0_231
