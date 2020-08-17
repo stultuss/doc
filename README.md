@@ -118,3 +118,5 @@ Developer Doc
 - 环境搭建
   - [Kafka](https://github.com/stultuss/doc/blob/master/doc/bigdata/Kafka.md)
   - [Hadoop](https://github.com/stultuss/doc/blob/master/doc/bigdata/Hadoop.md)
+  - [Kylin](https://github.com/stultuss/doc/blob/master/doc/bigdata/Kylin.md)
+
