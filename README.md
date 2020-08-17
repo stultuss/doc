@@ -115,5 +115,6 @@ Developer Doc
 
 ## 大数据
 
-- [基础](https://github.com/stultuss/doc/blob/master/doc/bigdata/Base.md)
+- 环境搭建
+  - [Kafka](https://github.com/stultuss/doc/blob/master/doc/bigdata/Kafka.md)
   - [Hadoop](https://github.com/stultuss/doc/blob/master/doc/bigdata/Hadoop.md)
