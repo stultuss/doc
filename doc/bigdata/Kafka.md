@@ -51,7 +51,7 @@ $ ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic mykafka 
 <dependency>
 	<groupId>org.apache.kafka</groupId>
   <artifactId>kafka-clients</artifactId>
-  <version>2.5.0</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
