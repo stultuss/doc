@@ -125,7 +125,7 @@ export JAVA_HOME=/opt/jdk
   </property>
   <property>
     <name>fs.default.name</name>
-    <value>hdfs://localhost:9000</value>
+    <value>hdfs://hadoop01:9000</value>
   </property>
   <property>
     <name>hadoop.proxyuser.root.hosts</name>
@@ -158,7 +158,7 @@ export JAVA_HOME=/opt/jdk
   </property>
   <property>
     <name>dfs.namenode.secondary.http-address</name>
-    <value>localhost:9001</value>
+    <value>hadoop01:9001</value>
   </property>
   <property>
     <name>dfs.webhdfs.enabled</name>
@@ -177,27 +177,27 @@ export JAVA_HOME=/opt/jdk
 <configuration>
   <property>
     <name>yarn.resourcemanager.hostname</name>
-    <value>localhost</value>
+    <value>hadoop01</value>
   </property>
   <property>
     <name>yarn.resourcemanager.address</name>
-    <value>localhost:18040</value>
+    <value>hadoop01:18040</value>
   </property>
   <property>
     <name>yarn.resourcemanager.scheduler.address</name>
-    <value>localhost:18030</value>
+    <value>hadoop01:18030</value>
   </property>
   <property>
     <name>yarn.resourcemanager.webapp.address</name>
-    <value>0.0.0.0:18088</value>
+    <value>hadoop01:18088</value>
   </property>
   <property>
     <name>yarn.resourcemanager.resource-tracker.address</name>
-    <value>localhost:18025</value>
+    <value>hadoop01:18025</value>
   </property>
   <property>
     <name>yarn.resourcemanager.admin.address</name>
-    <value>localhost:18141</value>
+    <value>hadoop01:18141</value>
   </property>
   <property>
     <name>yarn.nodemanager.aux-services</name>
@@ -254,7 +254,7 @@ $ jps
 ```shell
 # 启动 YARN 守护进程
 $ yarn-daemon.sh start resourcemanager
-$ yarm-daemon.sh start nodemanager
+$ yarn-daemon.sh start nodemanager
 
 # 以上命令可以合并为
 $ start-yarn.sh
@@ -419,6 +419,18 @@ $ hadoop fs -test - [defsz]  URI
 ```shell
 # 示例
 $ hadoop fs -test -e filename
+```
+
+## 问题
+
+通常直接修改 **core-site.xml** 等配置后，format 并 restart 后无法生效，需要手动杀掉相关进程，再重新启动
+
+```shell
+$ stop-all.sh
+$ ps -ef | grep java
+$ kill [pid]
+$ hadoop namenode -format
+$ start-all.sh
 ```
 
 ## 参考
