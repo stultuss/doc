@@ -4,6 +4,8 @@
 
 如果你从零开始搭建一个完整的集群，参考: [Hadoop集群搭建详细步骤](http://blog.csdn.net/bingduanlbd/article/details/51892750)
 
+[TOC]
+
 ## 一、准备 
 
 ### 1. 安装环境
@@ -60,7 +62,7 @@ $ ssh localhost
 # ssh-copy-id -i ~/.ssh/id_rsa.pub root@192.168.1.1
 ```
 
-## 安装及配置
+## 二、安装及配置
 
 ### 配置文件目录
 
@@ -260,19 +262,19 @@ $ yarn-daemon.sh start nodemanager
 $ start-yarn.sh
 ```
 
-## 管理界面
+## 三、管理界面
 
 查看 hdfs 管理界面：localhost:50070/dfshealth.html
 
 查看 yarn 管理界面：localhost:18088/cluster
 
-## 测试
+### 测试
 
 ```shell
 $ hadoop jar /opt/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.9.2.jar pi 5 10
 ```
 
-## 常用命令
+## 四、常用命令
 
 **1. 显示当前目录结构**
 
@@ -421,7 +423,7 @@ $ hadoop fs -test - [defsz]  URI
 $ hadoop fs -test -e filename
 ```
 
-## 问题
+## 五、问题
 
 通常直接修改 **core-site.xml** 等配置后，format 并 restart 后无法生效，需要手动杀掉相关进程，再重新启动
 
@@ -433,7 +435,7 @@ $ hadoop namenode -format
 $ start-all.sh
 ```
 
-## 参考
+## 六、参考
 
 [HDFS Java API](https://github.com/stultuss/God-Of-BigData/blob/master/大数据框架学习/HDFS-Java-API.md)
 

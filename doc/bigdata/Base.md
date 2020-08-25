@@ -40,9 +40,14 @@ BI 工具：Tableau，QuickBI
 
 
 
+https://github.com/apache/incubator-superset#installation-and-configuratio
 
 
 
+----
 
-https://github.com/apache/incubator-superset#installation-and-configuration
+CDH（Cloudera Distribution Hadoop） 是Hadoop众多分支中的一种，由Cloudera维护，基于稳定版本的Apache Hadoop构建，版本清晰，更新快，文档全，安装方式多（Yum、Rpm、Cloudera Manager、Tarball）
+
+ClouderaManager 是一个管理CDH的端到端的应用。
+作用：管理、监控、诊断、集成
 
