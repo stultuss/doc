@@ -11,12 +11,29 @@ Developer Doc
 - [算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Base.md)
   - [排序算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Sort.md)
   - [搜索算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Search.md)
+  - [哈希算法](https://github.com/stultuss/doc/blob/master/doc/algorithm/Hash.md)
   - [算法例题](https://github.com/stultuss/doc/blob/master/doc/algorithm/Example.md)
-  
-- [查找树](https://github.com/stultuss/doc/blob/master/doc/structure/SearchTree.md)
-  - [平衡树](https://github.com/stultuss/doc/blob/master/doc/structure/BalancedTree.md)
-  - [字典树](https://github.com/stultuss/doc/blob/master/doc/structure/TrieTree.md)
-  - B-Tree/B+Tree
+- 数据结构
+  - 一维：
+    - 数组 Array
+    - 链表 Linked List
+    - 栈 Stack
+    - 队列 Queue
+    - 集合 Deque
+    - 映射 Map
+  - 二维：
+    - [树](https://github.com/stultuss/doc/blob/master/doc/structure/SearchTree.md)
+      - [平衡树](https://github.com/stultuss/doc/blob/master/doc/structure/BalancedTree.md)
+      - [字典树](https://github.com/stultuss/doc/blob/master/doc/structure/TrieTree.md)
+      - B-Tree/B+Tree
+    - 图 Graph
+    - 堆 Heap
+    - 并查集 Disjoint Set
+    - 字典集 Trie
+  - 其他：
+    - 位运算 Bitwise
+    - 布隆过滤器 Bllom Filter
+    - LRU Cache
 
 ## 开发语言
 
