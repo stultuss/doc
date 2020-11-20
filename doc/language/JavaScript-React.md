@@ -4,6 +4,9 @@ REACT
 * [官方文档](http://reactjs.cn/react/docs/getting-started.html)
 * [阮一峰：React入门实例教程](http://www.ruanyifeng.com/blog/2015/03/react)
 
+## Demo
+* [react-typescript-starter](https://github.com/stultuss/react-typescript-starter) 
+
 ## 什么是 React
 * React 是 Facebook 的开源 JS 库。
 * React 起源因 Facebook 对市面上 Javascript MVC 框架都不满意，然后创造了 FLUX 框架，并基于 FLUX 框架，开发了 React。
