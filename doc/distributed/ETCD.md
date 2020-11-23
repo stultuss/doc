@@ -36,6 +36,7 @@ curl -s https://discovery.etcd.io/new?size=3
 **创建集群**
 
 ```sh
+THIS_IP=127.0.0.1
 DIR=/tmp/etcd
 
 # For each machine
@@ -46,7 +47,6 @@ DISCOVERY=https://discovery.etcd.io/37667965bb9cbc0201d6e7b6a2aab717
 
 # For node 1
 THIS_NAME=${NAME_1}
-THIS_IP=127.0.0.1
 THIS_PORT=12379
 PEER_PORT=12380
 mkdir -p ${DIR}/${THIS_NAME}
@@ -61,7 +61,6 @@ nohup ${DIR}/etcd \
 
 # For node 2
 THIS_NAME=${NAME_2}
-THIS_IP=127.0.0.1
 THIS_PORT=22379
 PEER_PORT=22380
 mkdir -p ${DIR}/${THIS_NAME}
