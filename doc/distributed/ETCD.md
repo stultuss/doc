@@ -90,6 +90,16 @@ nohup ${DIR}/etcd \
 
 ## Proxy 模式
 
+discovery 方式
+```sh
+nohup /tmp/etcd/etcd  \
+     -name proxy \
+     -proxy on  \
+     -listen-client-urls http://0.0.0.0:2370  \
+     -discovery https://discovery.etcd.io/37667965bb9cbc0201d6e7b6a2aab717 >> /tmp/etcd.log 2>&1 & echo $! > /tmp/run.pid
+```
+
+非 discovery 方式
 ```sh
 nohup /tmp/etcd/etcd  \
      -name proxy \
@@ -97,3 +107,4 @@ nohup /tmp/etcd/etcd  \
      -listen-client-urls http://0.0.0.0:2370  \
      -initial-cluster 'infra1=http://127.0.0.1:12380' >> /tmp/etcd.log 2>&1 & echo $! > /tmp/run.pid
 ```
+
