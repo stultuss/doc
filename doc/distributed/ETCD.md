@@ -51,7 +51,7 @@ THIS_PORT=12379
 PEER_PORT=12380
 mkdir -p ${DIR}/${THIS_NAME}
 nohup ${DIR}/etcd \
-  --data-dir=${DIR}/${NAME_1} \
+  --data-dir=${DIR}/${THIS_NAME} \
   --name ${THIS_NAME} \
   --advertise-client-urls http://${THIS_IP}:${THIS_PORT} \
   --initial-advertise-peer-urls http://${THIS_IP}:${PEER_PORT} \
@@ -66,7 +66,7 @@ THIS_PORT=22379
 PEER_PORT=22380
 mkdir -p ${DIR}/${THIS_NAME}
 nohup ${DIR}/etcd \
-  --data-dir=${DIR}/${NAME_1} \
+  --data-dir=${DIR}/${THIS_NAME} \
   --name ${THIS_NAME} \
   --advertise-client-urls http://${THIS_IP}:${THIS_PORT} \
   --initial-advertise-peer-urls http://${THIS_IP}:${PEER_PORT} \
@@ -80,7 +80,7 @@ THIS_PORT=32379
 PEER_PORT=32380
 mkdir -p ${DIR}/${THIS_NAME}
 nohup ${DIR}/etcd \
-  --data-dir=${DIR}/${NAME_1} \
+  --data-dir=${DIR}/${THIS_NAME} \
   --name ${THIS_NAME} \
   --advertise-client-urls http://${THIS_IP}:${THIS_PORT} \
   --initial-advertise-peer-urls http://${THIS_IP}:${PEER_PORT} \
