@@ -2,7 +2,7 @@
 
 > etcd v2 升级到 etcd v3 并发性能提升巨大，在 v3 版本中使用了 grpc gateway 来替代了 v2 的 proxy， etcd proxy 则已经被弃用
 
-## 单机
+## 安装
 
 ```shell
 ETCD_VER=v3.4.7
