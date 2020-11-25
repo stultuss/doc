@@ -4,6 +4,8 @@
 
 ## 安装
 
+1. 普通安装
+
 ```shell
 ETCD_VER=v3.4.7
 
@@ -24,11 +26,23 @@ ${DOWNLOAD_DIR}/etcd --version
 ${DOWNLOAD_DIR}/etcdctl version
 ```
 
-## 容器
-
-**创建 discovery**
+2. docker 安装
 
 ```shell
+# 搭建单节点ETCD服务
+docker run -d -p 4001:4001 \
+              -p 2380:2380 \
+              -p 2379:2379 \
+              --name etcd \
+              quay.io/coreos/etcd
+```
+
+## 创建集群
+
+**服务发现 discovery**
+
+```shell
+# 使用公共服务
 curl -s https://discovery.etcd.io/new?size=3
 #https://discovery.etcd.io/37667965bb9cbc0201d6e7b6a2aab717
 ```
@@ -106,5 +120,13 @@ nohup /tmp/etcd/etcd  \
      -proxy on  \
      -listen-client-urls http://0.0.0.0:2370  \
      -initial-cluster 'infra1=http://127.0.0.1:12380' >> /tmp/etcd.log 2>&1 & echo $! > /tmp/run.pid
+```
+
+## Gateway 模式
+
+```shell
+etcd gateway start \
+	--endpoints=http://127.0.0.1:12379,http://127.0.0.1:22379,http://127.0.0.1:32379 \
+	--listen-addr=0.0.0.0:80 >> /tmp/etcd-gateway.log 2>&1 &
 ```
 
