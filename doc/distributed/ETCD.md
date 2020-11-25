@@ -130,3 +130,11 @@ etcd gateway start \
 	--listen-addr=0.0.0.0:80 >> /tmp/etcd-gateway.log 2>&1 &
 ```
 
+## 验证
+
+```shell
+export ETCDCTL_API=3
+export ETCD_ENDPOINTS="http://127.0.0.1:80"
+etcdctl --endpoints=${ETCD_ENDPOINTS} member list
+```
+
