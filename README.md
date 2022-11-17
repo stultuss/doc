@@ -55,6 +55,7 @@ Developer Doc
   - [其他](https://github.com/stultuss/doc/blob/master/doc/language/Node.js-Others.md)
 - [Golang](https://github.com/Unknwon/the-way-to-go_ZH_CN/)
   - [基础](https://github.com/stultuss/doc/blob/master/doc/language/Go-Base.md)
+    - [更新](https://github.com/stultuss/doc/blob/master/doc/language/Go-Base-Changelog.md)
     - [协程](https://github.com/stultuss/doc/blob/master/doc/language/Go-Base-Goroutine.md)
     - [通道](https://github.com/stultuss/doc/blob/master/doc/language/Go-Base-Channel.md)
     - [并发](https://github.com/stultuss/doc/blob/master/doc/language/Go-Base-Concurrency.md)
