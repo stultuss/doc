@@ -2,9 +2,76 @@ Golang 版本更新
 =========================
 > 主要记录基于 go 1.14 以上版本的特性更新
 
-## go1.20 前瞻
+## go1.20 [简介](https://go.dev/doc/go1.20)
 
->  实现完全版范性
+**这是一个 gap 版本，引入内存优化 area，编译优化 pgo，代码编写 slice 转换 array 减少心智负担，以及多error wrap。**
+
+语言变化：
+
+- 预先声明的[`comparable`](https://go.dev/ref/spec#Type_constraints)约束现在也被普通的[可比较类型](https://go.dev/ref/spec#Comparison_operators)[满足](https://go.dev/ref/spec#Satisfying_a_type_constraint)，例如接口，这将简化通用代码。
+- 功能`SliceData`、`String`和`StringData`已添加到包中[`unsafe`](https://go.dev/ref/spec#Package_unsafe)。它们完成了独立于实现的切片和字符串操作的函数集。
+- Go 的类型转换规则已扩展为允许 [从 slice 直接转换为 array](https://go.dev/ref/spec#Conversions_from_slice_to_array_or_array_pointer)。
+
+```golang
+slice := []int{1, 2, 3, 4, 5}
+
+// 老方法
+array1 := *(*[5]int)(slice)
+
+// 新方法：1.20之前报错 cannot convert slice (variable of type []int) to type [5]int
+array2 := [5]int(slice)
+```
+
+- bytes string 互转
+
+```golang
+// 老方法：在1.20之前，bytes/string互转需要了解底层实现，借助 unsafe 代码来实现如下
+func OldBytesToString(b []byte) string {
+    return *((*string)(unsafe.Pointer(&b)))
+}
+
+func OldStringToBytes(s string) []byte {
+    stringHeader := (*reflect.StringHeader)(unsafe.Pointer(&s))
+
+    var b []byte
+    pbytes := (*reflect.SliceHeader)(unsafe.Pointer(&b)) // 先引用，防止原有string gc
+    pbytes.Data = stringHeader.Data
+    pbytes.Len = stringHeader.Len
+    pbytes.Cap = stringHeader.Len
+
+    return b
+}
+
+// 新方法：
+func String(ptr *byte, len IntegerType) string：// 根据数据指针和字符长度构造一个新的 string。
+func StringData(str string) *byte：// 返回指向该 string 的字节数组的数据指针。
+func SliceData(slice []ArbitraryType) *ArbitraryType：//返回该 slice 的数据指针。
+```
+
+- [语言规范现在定义了比较](https://go.dev/ref/spec#Comparison_operators)数组元素和结构字段的确切顺序。这阐明了在比较过程中出现恐慌时会发生什么。
+
+工具改进：
+
+- 该[`cover`工具](https://go.dev/testing/coverage)现在可以收集整个程序的覆盖率概况，而不仅仅是单元测试。
+- 该[`go`工具](https://go.dev/cmd/go)不再依赖于`$GOROOT/pkg`目录中预编译的标准库包存档，并且它们不再随发行版一起提供，从而减少了下载量。相反，标准库中的包是根据需要构建的，并像其他包一样缓存在构建缓存中。
+- 的实施`go test -json`已得到改进，以使其在出现杂散写入时更加健壮`stdout`。
+- 和其他与构建相关的命令现在接受一个启用`go build`配置文件引导优化的标志以及一个用于整个程序覆盖率分析的标志。`go install -pgo -cover`
+- 该命令现在默认在没有 C 工具链的系统上`go`禁用。`cgo`因此，当 Go 安装在没有 C 编译器的系统上时，它现在将对标准库中的包使用纯 Go 构建，这些包可以选择使用 cgo，而不是使用预分发的包存档（已被删除，如上所述） .
+- 该[`vet`工具](https://go.dev/cmd/vet)报告了在并行运行的测试中可能发生的更多循环变量引用错误。
+
+标准库添加：
+
+- 新[`crypto/ecdh`](https://go.dev/pkg/crypto/ecdh)包明确支持 NIST 曲线和 Curve25519 上的椭圆曲线 Diffie-Hellman 密钥交换。
+- 新函数[`errors.Join`](https://go.dev/pkg/errors#Join)返回一个包含错误列表的错误，如果错误类型实现了该`Unwrap() []error`方法，则可以再次获取错误列表。
+- 新[`http.ResponseController`](https://go.dev/pkg/net/http#ResponseController)类型提供对接口未处理的扩展的按请求功能的访问 [`http.ResponseWriter`](https://go.dev/pkg/net/http#ResponseWriter)。
+- 转发代理[`httputil.ReverseProxy`](https://go.dev/pkg/net/http/httputil#ReverseProxy) 包括一个新的`Rewrite`钩子函数，取代了以前的`Director`钩子。
+- 新[`context.WithCancelCause`](https://go.dev/pkg/context#WithCancelCause)函数提供了一种方法来取消具有给定错误的上下文。可以通过调用新函数来检索该错误 [`context.Cause`](https://go.dev/pkg/context#Cause)。
+- 新[`os/exec.Cmd`](https://go.dev/pkg/os/exec#Cmd)字段[`Cancel`](https://go.dev/pkg/os/exec#Cmd.Cancel) 并指定其关联被取消或进程退出时[`WaitDelay`](https://go.dev/pkg/os/exec#Cmd.WaitDelay)的行为 。`Cmd``Context`
+
+## 提高性能
+
+- 编译器和垃圾收集器的改进减少了内存开销，并将整体 CPU 性能提高了 2%。
+- 专门针对编译时间的工作导致构建改进高达 10%。这使构建速度与 Go 1.17 保持一致。
 
 ## go1.19 [简介](https://go.dev/doc/go1.19)
 
